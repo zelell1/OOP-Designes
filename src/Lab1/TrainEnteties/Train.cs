@@ -5,7 +5,7 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.TrainEnteties;
 
 public class Train : ITrain
 {
-    public Speed Speed { get; private set;  }
+    public Speed Speed { get; private set; }
 
     public Mass Mass { get; }
 
@@ -27,7 +27,7 @@ public class Train : ITrain
         Boost = new Boost(0);
     }
 
-    public TraversalResult CalculateTime(SectionLength sectionLength,  Force force)
+    public TraversalResult CalculateTime(SectionLength sectionLength, Force force)
     {
         if (force > MaxForce)
         {
