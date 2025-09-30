@@ -3,55 +3,55 @@ using Itmo.ObjectOrientedProgramming.Lab1.ValueObject;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.TrainEnteties;
 
-public class Train : ITrain
+public class Train
 {
+    public PassengerFlow PassengerFlow { get; }
+
     public Speed Speed { get; private set; }
 
-    public Mass Mass { get; }
+    private Mass Mass { get; }
 
-    public TimeAccuraccy TimeAccuracy { get; }
-
-    public PassengerFlow PassengerFlow { get; }
+    private TimeAccuracy TimeAccuracy { get; }
 
     private Force MaxForce { get; }
 
     private Boost Boost { get; set; }
 
-    public Train(Mass massTrain, PassengerFlow passengerFlow, TimeAccuraccy timeAccuracy, Force maxForce)
+    public Train(Mass massTrain, PassengerFlow passengerFlow, TimeAccuracy timeAccuracy, Force maxForce)
     {
-        Speed = new Speed(0);
+        Speed = Speed.Zero();
         Mass = massTrain;
         TimeAccuracy = timeAccuracy;
         PassengerFlow = passengerFlow;
         MaxForce = maxForce;
-        Boost = new Boost(0);
+        Boost = Boost.Zero();
     }
 
     public TraversalResult CalculateTime(SectionLength sectionLength, Force force)
     {
-        if (force > MaxForce)
+        if (force.Value > MaxForce.Value)
         {
             return new TraversalResult.Failure();
         }
 
-        Boost = new Boost(force.ValueT / Mass.ValueT);
-        var currLength = new PassedDistance(0);
+        Boost = new Boost(force.Value / Mass.Value);
+        var currLength = PassedDistance.Zero();
         Speed currentSpeed = Speed with { };
-        var time = new Time(0);
-        while (currLength.ValueT < sectionLength.ValueT)
+        var time = Time.Zero();
+        while (currLength.Value < sectionLength.Value)
         {
-            currentSpeed = new Speed(currentSpeed.ValueT + (Boost.ValueT * TimeAccuracy.ValueT));
+            currentSpeed = new Speed(currentSpeed.Value + (Boost.Value * TimeAccuracy.Value));
 
-            if (currentSpeed.ValueT <= 0)
+            if (currentSpeed.Value <= 0)
             {
                 return new TraversalResult.Failure();
             }
 
-            currLength = new PassedDistance(currLength.ValueT + (currentSpeed.ValueT * TimeAccuracy.ValueT));
-            time = new Time(TimeAccuracy.ValueT + time.ValueT);
+            currLength = new PassedDistance(currLength.Value + (currentSpeed.Value * TimeAccuracy.Value));
+            time = new Time(TimeAccuracy.Value + time.Value);
         }
 
         Speed = currentSpeed with { };
-        return new TraversalResult.Succes(time);
+        return new TraversalResult.Success(time);
     }
 }

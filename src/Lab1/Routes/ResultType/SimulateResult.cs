@@ -6,7 +6,7 @@ public abstract record SimulateResult
 {
     private SimulateResult() { }
 
-    public sealed record Succes(Time TimeValue) : SimulateResult;
+    public sealed record Success(Time TimeValue) : SimulateResult;
 
     public sealed record Failure : SimulateResult;
 }

@@ -17,13 +17,10 @@ public record Station : ISection
         _passengerCountOut = passengerCountOut;
     }
 
-    public PassResult PassSection(ITrain train)
+    public PassResult PassSection(Train train)
     {
-        if (train.Speed > _maxSpeed)
-        {
-            return new PassResult.Failure();
-        }
-
-        return new PassResult.Succes(new Time((_passengerCountIn.ValueT + _passengerCountOut.ValueT) / train.PassengerFlow.ValueT));
+        return train.Speed.Value > _maxSpeed.Value
+            ? new PassResult.Failure()
+            : new PassResult.Success(new Time((_passengerCountIn.Value + _passengerCountOut.Value) / train.PassengerFlow.Value));
     }
 }

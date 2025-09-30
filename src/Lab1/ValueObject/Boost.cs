@@ -1,8 +1,16 @@
 namespace Itmo.ObjectOrientedProgramming.Lab1.ValueObject;
 
-public record Boost : BasePhysicsObject<double>
+public record Boost
 {
-    public Boost(double boostValue) : base(boostValue) { }
+    public double Value { get; }
 
-    protected override void IsValid(double boostValue) { }
+    public Boost(double boostValue)
+    {
+        Value = boostValue;
+    }
+
+    public static Boost Zero()
+    {
+        return new Boost(0);
+    }
 }

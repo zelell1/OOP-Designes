@@ -5,5 +5,5 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.Sections;
 
 public interface ISection
 {
-    PassResult PassSection(ITrain train);
+    PassResult PassSection(Train train);
 }

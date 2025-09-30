@@ -6,7 +6,7 @@ public abstract record TraversalResult
 {
     private TraversalResult() { }
 
-    public sealed record Succes(Time TimeValue) : TraversalResult;
+    public sealed record Success(Time TimeValue) : TraversalResult;
 
     public sealed record Failure : TraversalResult;
 }

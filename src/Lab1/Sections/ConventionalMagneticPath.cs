@@ -14,14 +14,11 @@ public record ConventionalMagneticPath : ISection
         _sectionLength = sectionLength;
     }
 
-    public PassResult PassSection(ITrain train)
+    public PassResult PassSection(Train train)
     {
-        TraversalResult result = train.CalculateTime(_sectionLength, new Force(0));
-        if (result is TraversalResult.Succes successResult)
-        {
-            return new PassResult.Succes(successResult.TimeValue);
-        }
-
-        return new PassResult.Failure();
+        TraversalResult result = train.CalculateTime(_sectionLength, Force.Zero());
+        return result is TraversalResult.Success successResult
+            ? new PassResult.Success(successResult.TimeValue)
+            : new PassResult.Failure();
     }
 }

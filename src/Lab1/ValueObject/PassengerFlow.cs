@@ -1,14 +1,12 @@
 namespace Itmo.ObjectOrientedProgramming.Lab1.ValueObject;
 
-public record PassengerFlow : BasePhysicsObject<int>
+public record PassengerFlow
 {
-    public PassengerFlow(int valueFlow) : base(valueFlow) { }
+    public int Value { get; }
 
-    protected override void IsValid(int valueFlow)
+    public PassengerFlow(int valueFlow)
     {
-        if (valueFlow <= 0)
-        {
-            throw new ArgumentOutOfRangeException(valueFlow.ToString());
-        }
+        ArgumentOutOfRangeException.ThrowIfNegative(valueFlow);
+        Value = valueFlow;
     }
 }

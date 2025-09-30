@@ -1,14 +1,17 @@
 namespace Itmo.ObjectOrientedProgramming.Lab1.ValueObject;
 
-public record PassedDistance : BasePhysicsObject<double>
+public record PassedDistance
 {
-    public PassedDistance(double sectionLengthValue) : base(sectionLengthValue) { }
+    public double Value { get; }
 
-    protected override void IsValid(double sectionLengthValue)
+    public PassedDistance(double passedDistance)
     {
-        if (sectionLengthValue < 0)
-        {
-            throw new ArgumentOutOfRangeException(sectionLengthValue.ToString());
-        }
+        ArgumentOutOfRangeException.ThrowIfNegative(passedDistance);
+        Value = passedDistance;
+    }
+
+    public static PassedDistance Zero()
+    {
+        return new PassedDistance(0);
     }
 }

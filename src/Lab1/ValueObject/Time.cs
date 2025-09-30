@@ -1,8 +1,16 @@
 namespace Itmo.ObjectOrientedProgramming.Lab1.ValueObject;
 
-public record Time : BasePhysicsObject<double>
+public record Time
 {
-    public Time(double timeValue) : base(timeValue) { }
+    public double Value { get; }
 
-    protected override void IsValid(double timeValue) { }
+    public Time(double timeValue)
+    {
+        Value = timeValue;
+    }
+
+    public static Time Zero()
+    {
+       return new Time(0);
+    }
 }

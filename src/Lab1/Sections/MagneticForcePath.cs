@@ -16,14 +16,11 @@ public record MagneticForcePath : ISection
         _forceOnTrain = forceOnTrain;
     }
 
-    public PassResult PassSection(ITrain train)
+    public PassResult PassSection(Train train)
     {
         TraversalResult result = train.CalculateTime(_sectionLength, _forceOnTrain);
-        if (result is TraversalResult.Succes successResult)
-        {
-            return new PassResult.Succes(successResult.TimeValue);
-        }
-
-        return new PassResult.Failure();
+        return result is TraversalResult.Success successResult
+            ? new PassResult.Success(successResult.TimeValue)
+            : new PassResult.Failure();
     }
 }

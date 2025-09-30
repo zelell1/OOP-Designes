@@ -1,8 +1,16 @@
 namespace Itmo.ObjectOrientedProgramming.Lab1.ValueObject;
 
-public record Speed : BasePhysicsObject<double>
+public record Speed
 {
-    public Speed(double speedValue) : base(speedValue) { }
+    public double Value { get; }
 
-    protected override void IsValid(double speedValue) { }
+    public Speed(double speedValue)
+    {
+        Value = speedValue;
+    }
+
+    public static Speed Zero()
+    {
+        return new Speed(0);
+    }
 }

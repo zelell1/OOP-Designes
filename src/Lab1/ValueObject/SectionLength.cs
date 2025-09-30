@@ -1,14 +1,12 @@
 namespace Itmo.ObjectOrientedProgramming.Lab1.ValueObject;
 
-public record SectionLength : BasePhysicsObject<double>
+public record SectionLength
 {
-    public SectionLength(double sectionLengthValue) : base(sectionLengthValue) { }
+    public double Value { get; }
 
-    protected override void IsValid(double sectionLengthValue)
+    public SectionLength(double sectionLengthValue)
     {
-        if (sectionLengthValue <= 0)
-        {
-            throw new ArgumentOutOfRangeException(sectionLengthValue.ToString());
-        }
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(sectionLengthValue);
+        Value = sectionLengthValue;
     }
 }

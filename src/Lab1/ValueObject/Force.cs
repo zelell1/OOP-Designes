@@ -1,8 +1,16 @@
 namespace Itmo.ObjectOrientedProgramming.Lab1.ValueObject;
 
-public record Force : BasePhysicsObject<double>
+public record Force
 {
-    public Force(double forceValue) : base(forceValue) { }
+    public double Value { get; }
 
-    protected override void IsValid(double forceValue) { }
+    public Force(double forceValue)
+    {
+        Value = forceValue;
+    }
+
+    public static Force Zero()
+    {
+        return new Force(0);
+    }
 }

@@ -1,14 +1,12 @@
 namespace Itmo.ObjectOrientedProgramming.Lab1.ValueObject;
 
-public record Mass : BasePhysicsObject<double>
+public record Mass
 {
-    public Mass(double massValue) : base(massValue) { }
+    public double Value { get; }
 
-    protected override void IsValid(double massValue)
+    public Mass(double massValue)
     {
-        if (massValue <= 0)
-        {
-            throw new ArgumentOutOfRangeException(massValue.ToString());
-        }
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(massValue);
+        Value = massValue;
     }
 }

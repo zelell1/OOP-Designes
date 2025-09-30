@@ -3,43 +3,35 @@ using Itmo.ObjectOrientedProgramming.Lab1.Sections;
 using Itmo.ObjectOrientedProgramming.Lab1.Sections.ResultType;
 using Itmo.ObjectOrientedProgramming.Lab1.TrainEnteties;
 using Itmo.ObjectOrientedProgramming.Lab1.ValueObject;
-using System.Collections.Immutable;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.Routes;
 
-public class Route : IRoute
+public class Route
 {
-    public IReadOnlyCollection<ISection> Sections { get; }
+    private readonly IReadOnlyCollection<ISection> _sections;
 
-    public Speed MaxSpeed { get; }
+    private readonly Speed _maxSpeed;
 
     public Route(IReadOnlyCollection<ISection> sections, Speed maxSpeed)
     {
-        Sections = sections.ToImmutableList();
-        MaxSpeed = maxSpeed;
+        _sections = sections;
+        _maxSpeed = maxSpeed;
     }
 
-    public SimulateResult Simulate(ITrain train)
+    public SimulateResult Simulate(Train train)
     {
-        var routeTime = new Time(0);
-        foreach (ISection section in Sections)
+        var routeTime = Time.Zero();
+        foreach (ISection section in _sections)
         {
             PassResult result = section.PassSection(train);
-            if (result is PassResult.Succes successResul)
-            {
-                routeTime = new Time(successResul.TimeValue.ValueT + routeTime.ValueT);
-            }
-            else
+            if (result is not PassResult.Success successResult)
             {
                 return new SimulateResult.Failure();
             }
+
+            routeTime = new Time(successResult.TimeValue.Value + routeTime.Value);
         }
 
-        if (train.Speed > MaxSpeed)
-        {
-            return new SimulateResult.Failure();
-        }
-
-        return new SimulateResult.Succes(routeTime);
+        return train.Speed.Value > _maxSpeed.Value ? new SimulateResult.Failure() : new SimulateResult.Success(routeTime);
     }
 }

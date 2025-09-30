@@ -1,14 +1,12 @@
 namespace Itmo.ObjectOrientedProgramming.Lab1.ValueObject;
 
-public record PassengerCount : BasePhysicsObject<int>
+public record PassengerCount
 {
-    public PassengerCount(int value) : base(value) { }
+    public int Value { get; }
 
-    protected override void IsValid(int value)
+    public PassengerCount(int valuePassengerCount)
     {
-        if (value < 0)
-        {
-            throw new ArgumentOutOfRangeException(value.ToString());
-        }
+        ArgumentOutOfRangeException.ThrowIfNegative(valuePassengerCount);
+        Value = valuePassengerCount;
     }
 }
