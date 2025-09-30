@@ -9,46 +9,51 @@ public class Train
 
     public Speed Speed { get; private set; }
 
-    private Mass Mass { get; }
+    private readonly Mass _mass;
 
-    private TimeAccuracy TimeAccuracy { get; }
+    private readonly TimeAccuracy _timeAccuracy;
 
-    private Force MaxForce { get; }
+    private readonly Force _maxForce;
 
     private Boost Boost { get; set; }
 
     public Train(Mass massTrain, PassengerFlow passengerFlow, TimeAccuracy timeAccuracy, Force maxForce)
     {
         Speed = Speed.Zero();
-        Mass = massTrain;
-        TimeAccuracy = timeAccuracy;
+        _mass = massTrain;
+        _timeAccuracy = timeAccuracy;
         PassengerFlow = passengerFlow;
-        MaxForce = maxForce;
+        _maxForce = maxForce;
         Boost = Boost.Zero();
     }
 
-    public TraversalResult CalculateTime(SectionLength sectionLength, Force force)
+    public TraversalResult CalculateBoost(Force force)
     {
-        if (force.Value > MaxForce.Value)
+        if (force.Value > _maxForce.Value)
         {
             return new TraversalResult.Failure();
         }
 
-        Boost = new Boost(force.Value / Mass.Value);
+        Boost = new Boost(force.Value / _mass.Value);
+        return new TraversalResult.Success(Time.Zero());
+    }
+
+    public TraversalResult CalculateTime(SectionLength sectionLength)
+    {
         var currLength = PassedDistance.Zero();
         Speed currentSpeed = Speed with { };
         var time = Time.Zero();
         while (currLength.Value < sectionLength.Value)
         {
-            currentSpeed = new Speed(currentSpeed.Value + (Boost.Value * TimeAccuracy.Value));
+            currentSpeed = new Speed(currentSpeed.Value + (Boost.Value * _timeAccuracy.Value));
 
             if (currentSpeed.Value <= 0)
             {
                 return new TraversalResult.Failure();
             }
 
-            currLength = new PassedDistance(currLength.Value + (currentSpeed.Value * TimeAccuracy.Value));
-            time = new Time(TimeAccuracy.Value + time.Value);
+            currLength = new PassedDistance(currLength.Value + (currentSpeed.Value * _timeAccuracy.Value));
+            time = new Time(_timeAccuracy.Value + time.Value);
         }
 
         Speed = currentSpeed with { };

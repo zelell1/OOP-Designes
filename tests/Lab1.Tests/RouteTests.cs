@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.Tests;
 
-public class TestsLab1
+public class RouteTests
 {
     [Fact]
     public void Simulate_WithForceAndConventionalRoute_ReturnsCorrectTime()

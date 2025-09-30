@@ -32,6 +32,11 @@ public class Route
             routeTime = new Time(successResult.TimeValue.Value + routeTime.Value);
         }
 
-        return train.Speed.Value > _maxSpeed.Value ? new SimulateResult.Failure() : new SimulateResult.Success(routeTime);
+        if (train.Speed.Value > _maxSpeed.Value)
+        {
+            return new SimulateResult.Failure();
+        }
+
+        return new SimulateResult.Success(routeTime);
     }
 }

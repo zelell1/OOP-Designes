@@ -19,8 +19,11 @@ public record Station : ISection
 
     public PassResult PassSection(Train train)
     {
-        return train.Speed.Value > _maxSpeed.Value
-            ? new PassResult.Failure()
-            : new PassResult.Success(new Time((_passengerCountIn.Value + _passengerCountOut.Value) / train.PassengerFlow.Value));
+        if (train.Speed.Value > _maxSpeed.Value)
+        {
+            return new PassResult.Failure();
+        }
+
+        return new PassResult.Success(new Time((_passengerCountIn.Value + _passengerCountOut.Value) / train.PassengerFlow.Value));
     }
 }
