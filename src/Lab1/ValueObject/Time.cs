@@ -11,6 +11,6 @@ public record Time
 
     public static Time Zero()
     {
-       return new Time(0);
+        return new Time(0);
     }
 }
