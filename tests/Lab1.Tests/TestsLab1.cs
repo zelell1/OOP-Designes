@@ -10,7 +10,7 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.Tests;
 public class TestsLab1
 {
     [Fact]
-    public void CalculatePassageTime_WithForceAndConventionalRoute_ReturnsCorrectTime()
+    public void Simulate_WithForceAndConventionalRoute_ReturnsCorrectTime()
     {
         // Arrange
         var forceSection1 = new MagneticForcePath(
@@ -42,7 +42,7 @@ public class TestsLab1
     }
 
     [Fact]
-    public void CalculatePassageTime_WhenTrainExceedsMaxRouteSpeed_ReturnsFailure()
+    public void Simulate_WhenTrainExceedsMaxRouteSpeed_ReturnsFailure()
     {
         // Arrange
         var forceSection1 = new MagneticForcePath(
@@ -70,7 +70,7 @@ public class TestsLab1
     }
 
     [Fact]
-    public void CalculatePassageTime_WhenSpeedIsWithinAllSpeedLimits_ReturnsCorrectTime()
+    public void Simulate_WhenSpeedIsWithinAllSpeedLimits_ReturnsCorrectTime()
     {
         // Arrange
         var forceSection1 = new MagneticForcePath(
@@ -112,7 +112,7 @@ public class TestsLab1
     }
 
     [Fact]
-    public void CalculatePassageTime_WhenTrainExceedsMaxStationSpeed_ReturnsFailure()
+    public void Simulate_WhenTrainExceedsMaxStationSpeed_ReturnsFailure()
     {
         // Arrange
         var forceSection1 = new MagneticForcePath(
@@ -149,7 +149,7 @@ public class TestsLab1
     }
 
     [Fact]
-    public void CalculatePassageTime_RouteSpeedLimitOverridesStationSpeedLimit_ReturnsFailure()
+    public void Simulate_RouteSpeedLimitOverridesStationSpeedLimit_ReturnsFailure()
     {
         // Arrange
         var forceSection1 = new MagneticForcePath(
@@ -187,7 +187,7 @@ public class TestsLab1
     }
 
     [Fact]
-    public void CalculatePassageTime_WhenSpeedIsCorrectedByForceSections_ReturnsCorrectTime()
+    public void Simulate_WhenSpeedIsCorrectedByForceSections_ReturnsCorrectTime()
     {
         // Arrange
         var forceSection1 = new MagneticForcePath(
@@ -245,7 +245,7 @@ public class TestsLab1
     }
 
     [Fact]
-    public void CalculatePassageTime_WhenTrainDontHaveStartBoost_ReturnsFailure()
+    public void Simulate_WhenTrainDontHaveStartBoost_ReturnsFailure()
     {
         // Arrange
         var convSection1 = new ConventionalMagneticPath(new SectionLength(100));
@@ -269,7 +269,7 @@ public class TestsLab1
     }
 
     [Fact]
-    public void CalculatePassageTime_WhenTrainStops_ReturnsFailure()
+    public void Simulate_WhenTrainStops_ReturnsFailure()
     {
         // Arrange
         var forceSection1 = new MagneticForcePath(
