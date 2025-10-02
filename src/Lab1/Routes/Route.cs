@@ -21,9 +21,11 @@ public class Route
     public SimulateResult Simulate(Train train)
     {
         var routeTime = Time.Zero();
+
         foreach (ISection section in _sections)
         {
             PassResult result = section.PassSection(train);
+
             if (result is not PassResult.Success successResult)
             {
                 return new SimulateResult.Failure();

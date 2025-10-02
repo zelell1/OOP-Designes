@@ -17,6 +17,7 @@ public record ConventionalMagneticPath : ISection
     public PassResult PassSection(Train train)
     {
         TraversalResult result = train.CalculateTime(_sectionLength);
+
         if (result is TraversalResult.Success successResult)
         {
             return new PassResult.Success(successResult.TimeValue);

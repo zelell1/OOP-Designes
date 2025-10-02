@@ -18,14 +18,18 @@ public record MagneticForcePath : ISection
 
     public PassResult PassSection(Train train)
     {
-        TraversalResult boostResult = train.CalculateBoost(_forceOnTrain);
-        if (boostResult is TraversalResult.Failure)
+        if (!train.TrySetBoost(_forceOnTrain))
         {
             return new PassResult.Failure();
         }
 
         TraversalResult result = train.CalculateTime(_sectionLength);
-        train.CalculateBoost(Force.Zero());
+
+        if (!train.TrySetBoost(Force.Zero()))
+        {
+            return new PassResult.Failure();
+        }
+
         if (result is TraversalResult.Success successResult)
         {
             return new PassResult.Success(successResult.TimeValue);
