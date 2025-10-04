@@ -7,7 +7,9 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.Sections;
 public record Station : ISection
 {
     private readonly Speed _maxSpeed;
+
     private readonly PassengerCount _passengerCountIn;
+
     private readonly PassengerCount _passengerCountOut;
 
     public Station(Speed maxSpeed, PassengerCount passengerCountIn, PassengerCount passengerCountOut)

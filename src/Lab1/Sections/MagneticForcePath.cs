@@ -8,6 +8,7 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.Sections;
 public record MagneticForcePath : ISection
 {
     private readonly SectionLength _sectionLength;
+
     private readonly Force _forceOnTrain;
 
     public MagneticForcePath(SectionLength sectionLength, Force forceOnTrain)
