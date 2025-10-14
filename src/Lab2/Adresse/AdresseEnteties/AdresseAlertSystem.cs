@@ -14,15 +14,15 @@ public class AdresseAlertSystem : IAdresse
 
     private readonly IModerator _moderator;
 
-    public AdresseAlertSystem(IAlertSystemService alertSystemService,  AlertMessage alertMessage, IModerator moderator)
+    public AdresseAlertSystem(IAlertSystemService alertSystemService, AlertMessage alertMessage, IModerator moderator)
     {
         _alertSystemService = alertSystemService;
         _alertMessage = alertMessage;
         _moderator = moderator;
     }
 
-    public AdresseAlertSystem(IAlertSystemService alertSystemService,  AlertMessage alertMessage)
-        : this(alertSystemService,  alertMessage, new WordsModerator()) { }
+    public AdresseAlertSystem(IAlertSystemService alertSystemService, AlertMessage alertMessage)
+        : this(alertSystemService, alertMessage, new WordsModerator()) { }
 
     public void GetMessage(Message message)
     {
