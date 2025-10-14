@@ -1,10 +1,11 @@
+using Itmo.ObjectOrientedProgramming.Lab2.Messages;
 using Itmo.ObjectOrientedProgramming.Lab2.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.TextFomatter;
 
-public interface ITextFormatter : ITextFormatter
+public interface ITextFormatter
 {
-    Header FormatHeader(Header header);
+    Header FormatHeader(Message message);
 
-    Body FormatBody(Body body);
+    Body FormatBody(Message message);
 }

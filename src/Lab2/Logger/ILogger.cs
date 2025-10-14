@@ -1,8 +1,6 @@
-using Itmo.ObjectOrientedProgramming.Lab2.Messages;
-
-namespace Itmo.ObjectOrientedProgramming.Lab2.Adresse.AdresseEnteties.Logger;
+namespace Itmo.ObjectOrientedProgramming.Lab2.Logger;
 
 public interface ILogger
 {
-    void Log(Message message);
+    void Log(string text);
 }
