@@ -15,7 +15,7 @@ public class User
 
     public void GetMessage(Message message)
     {
-        _userMessages.Add(message, new MessageStatus.NotRead());
+        _userMessages.TryAdd(message, new MessageStatus.NotRead());
     }
 
     public MessageStatus CheckStatus(Message message)
