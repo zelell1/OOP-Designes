@@ -8,12 +8,9 @@ public class FileMessageFormatter : IMessageFormatter
 {
     private readonly FilePath _filePath;
 
-    private readonly ITextFormatter _textFormatter;
-
     public FileMessageFormatter(FilePath filePath, ITextFormatter textFormatter)
     {
         _filePath = filePath;
-        _textFormatter = textFormatter;
     }
 
     public FileMessageFormatter() : this(new FilePath(Path.GetTempFileName()), new MdFormatter()) { }
@@ -22,11 +19,11 @@ public class FileMessageFormatter : IMessageFormatter
 
     public void FormatMessageHeader(string message)
     {
-        File.AppendAllText(_filePath.Value, _textFormatter.FormatHeader(message));
+        File.AppendAllText(_filePath.Value, message);
     }
 
     public void FormatMessageBody(string message)
     {
-        File.AppendAllText(_filePath.Value, _textFormatter.FormatBody(message));
+        File.AppendAllText(_filePath.Value, message);
     }
 }
