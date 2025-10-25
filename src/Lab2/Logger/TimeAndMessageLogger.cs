@@ -1,18 +1,16 @@
-using System.Collections.ObjectModel;
-
 namespace Itmo.ObjectOrientedProgramming.Lab2.Logger;
 
 public class TimeAndMessageLogger : ILogger
 {
-    private readonly Collection<(string Message, DateTime Time)> _logs;
+    private readonly Dictionary<DateTime, string> _logs;
 
     public TimeAndMessageLogger()
     {
-        _logs = new Collection<(string, DateTime)>();
+        _logs = new Dictionary<DateTime, string>();
     }
 
     public void Log(string text)
     {
-        _logs.Add((text, DateTime.Now));
+        _logs.Add(DateTime.Now, text);
     }
 }

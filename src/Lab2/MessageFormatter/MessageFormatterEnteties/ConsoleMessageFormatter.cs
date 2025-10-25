@@ -1,4 +1,3 @@
-using Itmo.ObjectOrientedProgramming.Lab2.Messages;
 using Itmo.ObjectOrientedProgramming.Lab2.TextFomatter;
 using Itmo.ObjectOrientedProgramming.Lab2.TextFomatter.TextFormatterEnteties;
 
@@ -18,13 +17,13 @@ public class ConsoleMessageFormatter : IMessageFormatter
         _textFormatter = textFormatter;
     }
 
-    public void FormatMessageHeader(Message message)
+    public void FormatMessageHeader(string message)
     {
-        Console.WriteLine(_textFormatter.FormatHeader(message).Value);
+        Console.WriteLine(_textFormatter.FormatHeader(message));
     }
 
-    public void FormatMessageBody(Message message)
+    public void FormatMessageBody(string message)
     {
-        Console.WriteLine(_textFormatter.FormatBody(message).Value);
+        Console.WriteLine(_textFormatter.FormatBody(message));
     }
 }

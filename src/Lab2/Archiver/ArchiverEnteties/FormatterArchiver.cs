@@ -14,7 +14,7 @@ public class FormatterArchiver : IArchiver
 
     public void Archive(Message message)
     {
-        _formatter.FormatMessageHeader(message);
-        _formatter.FormatMessageBody(message);
+        _formatter.FormatMessageHeader(message.Header);
+        _formatter.FormatMessageBody(message.Body);
     }
 }

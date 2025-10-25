@@ -21,8 +21,8 @@ public class CorporateSystemTests
     public void GetMessage_UserGetMessage_MessageSavedWithUnreadStatus()
     {
         // Arrange
-        var header = new Header("Greetings");
-        var body = new Body("Hello, new workers! Congratulations on your first day at work.");
+        string header = "Greetings";
+        string body = "Hello, new workers! Congratulations on your first day at work.";
         var importance = new ImportanceLevel(5);
 
         var message = new Message(
@@ -44,8 +44,8 @@ public class CorporateSystemTests
     public void GetMessage_UserGetMessageAndRead_MessageSavedWithReadStatus()
     {
         // Arrange
-        var header = new Header("Greetings");
-        var body = new Body("Hello, new workers! Congratulations on your first day at work.");
+        string header = "Greetings";
+        string body = "Hello, new workers! Congratulations on your first day at work.";
         var importance = new ImportanceLevel(5);
 
         var message = new Message(
@@ -69,8 +69,8 @@ public class CorporateSystemTests
     public void GetMessage_UserReadMessageThatWasReadBefore_ReturnsError()
     {
         // Arrange
-        var header = new Header("Greetings");
-        var body = new Body("Hello, new workers! Congratulations on your first day at work.");
+        string header = "Greetings";
+        string body = "Hello, new workers! Congratulations on your first day at work.";
         var importance = new ImportanceLevel(5);
 
         var message = new Message(
@@ -96,8 +96,8 @@ public class CorporateSystemTests
     public void GetMessage_ImportanceBelowFilter_AddresseeNotGetMessage()
     {
         // Arrange
-        var header = new Header("Greetings");
-        var body = new Body("Hello, new workers! Congratulations on your first day at work.");
+        string header = "Greetings";
+        string body = "Hello, new workers! Congratulations on your first day at work.";
         var importance = new ImportanceLevel(4);
 
         var message = new Message(
@@ -120,8 +120,8 @@ public class CorporateSystemTests
     public void LogMessage_WhenUserGetMessage_Logged()
     {
         // Arrange
-        var header = new Header("Greetings");
-        var body = new Body("Hello, new workers! Congratulations on your first day at work.");
+        string header = "Greetings";
+        string body = "Hello, new workers! Congratulations on your first day at work.";
         var importance = new ImportanceLevel(4);
 
         var message = new Message(
@@ -147,8 +147,8 @@ public class CorporateSystemTests
     public void Archive_UsingFormattingArchiver_FormatsAndArchivesMessage()
     {
         // Arrange
-        var header = new Header("Greetings");
-        var body = new Body("Hello, new workers! Congratulations on your first day at work.");
+        string header = "Greetings";
+        string body = "Hello, new workers! Congratulations on your first day at work.";
         var importance = new ImportanceLevel(4);
 
         var message = new Message(
@@ -163,16 +163,16 @@ public class CorporateSystemTests
         archiver.Archive(message);
 
         // Assert
-        formatter.Received(1).FormatMessageHeader(Arg.Any<Message>());
-        formatter.Received(1).FormatMessageBody(Arg.Any<Message>());
+        formatter.Received(1).FormatMessageHeader(Arg.Any<string>());
+        formatter.Received(1).FormatMessageBody(Arg.Any<string>());
     }
 
     [Fact]
     public void GetMessage_TwoAddresseesOneWithImportanceFilter_GetOnce()
     {
         // Arrange
-        var header = new Header("Greetings");
-        var body = new Body("Hello, new workers! Congratulations on your first day at work.");
+        string header = "Greetings";
+        string body = "Hello, new workers! Congratulations on your first day at work.";
         var importanceFirst = new ImportanceLevel(4);
         var importanceSecond = new ImportanceLevel(3);
 

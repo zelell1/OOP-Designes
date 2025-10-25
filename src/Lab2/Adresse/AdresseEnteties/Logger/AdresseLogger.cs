@@ -19,7 +19,7 @@ public class AdresseLogger : IAdresse
 
     public void GetMessage(Message message)
     {
-        _logger.Log($"({DateTime.Now})[{message.Importance}] {message.Header.Value}: {message.Body.Value}");
+        _logger.Log($"({DateTime.Now})[{message.Importance}] {message.Header}: {message.Body}");
         _adresse.GetMessage(message);
     }
 }

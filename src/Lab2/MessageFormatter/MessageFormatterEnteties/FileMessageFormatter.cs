@@ -1,4 +1,3 @@
-using Itmo.ObjectOrientedProgramming.Lab2.Messages;
 using Itmo.ObjectOrientedProgramming.Lab2.TextFomatter;
 using Itmo.ObjectOrientedProgramming.Lab2.TextFomatter.TextFormatterEnteties;
 using Itmo.ObjectOrientedProgramming.Lab2.ValueObjects;
@@ -21,13 +20,13 @@ public class FileMessageFormatter : IMessageFormatter
 
     public FileMessageFormatter(string filePath) : this(new FilePath(filePath), new MdFormatter()) { }
 
-    public void FormatMessageHeader(Message message)
+    public void FormatMessageHeader(string message)
     {
-        File.AppendAllText(_filePath.Value, _textFormatter.FormatHeader(message).Value);
+        File.AppendAllText(_filePath.Value, _textFormatter.FormatHeader(message));
     }
 
-    public void FormatMessageBody(Message message)
+    public void FormatMessageBody(string message)
     {
-        File.AppendAllText(_filePath.Value, _textFormatter.FormatBody(message).Value);
+        File.AppendAllText(_filePath.Value, _textFormatter.FormatBody(message));
     }
 }

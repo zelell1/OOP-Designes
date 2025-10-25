@@ -1,10 +1,8 @@
-using Itmo.ObjectOrientedProgramming.Lab2.Messages;
-
 namespace Itmo.ObjectOrientedProgramming.Lab2.MessageFormatter;
 
 public interface IMessageFormatter
 {
-    void FormatMessageHeader(Message message);
+    void FormatMessageHeader(string message);
 
-    void FormatMessageBody(Message message);
+    void FormatMessageBody(string message);
 }

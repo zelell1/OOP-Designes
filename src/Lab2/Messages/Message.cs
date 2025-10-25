@@ -4,13 +4,13 @@ namespace Itmo.ObjectOrientedProgramming.Lab2.Messages;
 
 public class Message
 {
-    public Header Header { get; }
+    public string Header { get; }
 
-    public Body Body { get; }
+    public string Body { get; }
 
     public ImportanceLevel Importance { get; }
 
-    public Message(Header header, Body body, ImportanceLevel importanceLevel)
+    public Message(string header, string body, ImportanceLevel importanceLevel)
     {
         Header = header;
         Body = body;
@@ -19,6 +19,6 @@ public class Message
 
     public string GetMessageString()
     {
-        return $"[{Importance}] {Header.Value}: {Body.Value}";
+        return $"[{Importance}] {Header}: {Body}";
     }
 }
