@@ -31,7 +31,6 @@ public abstract class BaseCreature : ICreature
 
         if (Health.Value <= 0)
         {
-            Console.WriteLine("ssss");
             return new AttackResult.Dead();
         }
 
