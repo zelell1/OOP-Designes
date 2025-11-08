@@ -4,11 +4,14 @@ using Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 using Itmo.ObjectOrientedProgramming.Lab3.Creatures.CreatureFactories.CreatureFactoryEnteties;
 using Itmo.ObjectOrientedProgramming.Lab3.Creatures.CreaturesBuilders;
 using Itmo.ObjectOrientedProgramming.Lab3.Creatures.ResultType;
+using Itmo.ObjectOrientedProgramming.Lab3.CreatureSelector.CreatureSelectorEnteties;
 using Itmo.ObjectOrientedProgramming.Lab3.Modifiers.ModifiersFactories;
 using Itmo.ObjectOrientedProgramming.Lab3.Modifiers.ModifiersFactories.ModifierssFactoriesEnteties;
 using Itmo.ObjectOrientedProgramming.Lab3.Spells.SpellEnteties;
 using Itmo.ObjectOrientedProgramming.Lab3.Tables;
+using Itmo.ObjectOrientedProgramming.Lab3.Tables.Builders;
 using Itmo.ObjectOrientedProgramming.Lab3.Tables.ResultType;
+using Itmo.ObjectOrientedProgramming.Lab3.Tables.TableFactories.TableFactoriesEnteties;
 using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 using Xunit;
 
@@ -183,7 +186,8 @@ public class GameCoreTests
         };
 
         // Act
-        ICreature creature = new ViciousFighterFactory().CreateBuilder().AddModifiers(modifiers).Build();
+        ICreature creature = new ViciousFighterFactory().CreateBuilder().AddModifiers(modifiers[0]).
+            AddModifiers(modifiers[1]).Build();
         creature.GetDamage(new Damage(10));
         creature.GetDamage(new Damage(10));
 
@@ -200,7 +204,7 @@ public class GameCoreTests
             new MasteryAttackModifierFactory(),
         };
 
-        ICreature creature = new BattleAnalystFactory().CreateBuilder().AddModifiers(modifiers).Build();
+        ICreature creature = new BattleAnalystFactory().CreateBuilder().AddModifiers(modifiers[0]).Build();
         var spell = new MagicMirrorSpell();
 
         // Act
@@ -229,6 +233,8 @@ public class GameCoreTests
     public void AddCreature_WhenHandSizeIsFull_Failure()
     {
         // Arrange
+        bool isOverflowed = false;
+
         var creatures = new List<ICreatureBuilder>
         {
             new AmuletMasterFactory().CreateBuilder(), new ViciousFighterFactory().CreateBuilder(),
@@ -237,20 +243,27 @@ public class GameCoreTests
             new BattleAnalystFactory().CreateBuilder(), new ViciousFighterFactory().CreateBuilder(),
         };
 
-        var table = new PlayerTable();
-        table.AddCreature(creatures[0].Build());
-        table.AddCreature(creatures[1].Build());
-        table.AddCreature(creatures[2].Build());
-        table.AddCreature(creatures[3].Build());
-        table.AddCreature(creatures[4].Build());
-        table.AddCreature(creatures[5].Build());
-        table.AddCreature(creatures[6].Build());
+        IPlayerTableBuilder table = new TableWithSequentialSelectorFactory().CreateBuilder()
+            .AddCreature(creatures[0].Build())
+            .AddCreature(creatures[1].Build())
+            .AddCreature(creatures[2].Build())
+            .AddCreature(creatures[3].Build())
+            .AddCreature(creatures[4].Build())
+            .AddCreature(creatures[5].Build())
+            .AddCreature(creatures[6].Build());
 
         // Act
-        AddCreatureResult result = table.AddCreature(creatures[7].Build());
+        try
+        {
+            table.AddCreature(creatures[7].Build());
+        }
+        catch (InvalidOperationException)
+        {
+            isOverflowed = true;
+        }
 
         // Assert
-        Assert.True(result is AddCreatureResult.Failure);
+        Assert.True(isOverflowed);
     }
 
     [Fact]
@@ -265,14 +278,15 @@ public class GameCoreTests
             new BattleAnalystFactory().CreateBuilder(), new ViciousFighterFactory().CreateBuilder(),
         };
 
-        var table = new PlayerTable();
-        table.AddCreature(creatures[0].Build());
-        table.AddCreature(creatures[1].Build());
-        table.AddCreature(creatures[2].Build());
-        table.AddCreature(creatures[3].Build());
-        table.AddCreature(creatures[4].Build());
-        table.AddCreature(creatures[5].Build());
-        table.AddCreature(creatures[6].Build());
+        PlayerTable table = new TableWithSequentialSelectorFactory().CreateBuilder()
+            .AddCreature(creatures[0].Build())
+            .AddCreature(creatures[1].Build())
+            .AddCreature(creatures[2].Build())
+            .AddCreature(creatures[3].Build())
+            .AddCreature(creatures[4].Build())
+            .AddCreature(creatures[5].Build())
+            .AddCreature(creatures[6].Build())
+            .Build();
 
         // Act
         PlayerTable clone = table.Clone();
@@ -297,13 +311,13 @@ public class GameCoreTests
         var spellFisrt = new ShieldAmuletSpell();
         var spellSecond = new BuffAttackSpell();
 
-        var table = new PlayerTable();
+        PlayerTable table = new TableWithSequentialSelectorFactory().CreateBuilder()
+            .AddCreature(creatures[0].Build())
+            .AddCreature(creatures[1].Build())
+            .Build();
 
         ICreature creatureFirst = creatures[0].Build();
         ICreature creatureSecond = creatures[1].Build();
-
-        table.AddCreature(creatures[0].Build());
-        table.AddCreature(creatures[1].Build());
 
         // Act
         CastSpellResult resultFirst = table.CastSpell(new CreatureIndex(0), spellFisrt);
@@ -325,12 +339,12 @@ public class GameCoreTests
     public void Fight_BattleWithEmptyTables_Draw()
     {
         // Arrange
-        var tableFirst = new PlayerTable();
-        var tableSecond = new PlayerTable();
+        PlayerTable tableFirst = new TableWithSequentialSelectorFactory().CreateBuilder().Build();
+        PlayerTable tableSecond = new TableWithSequentialSelectorFactory().CreateBuilder().Build();
         var battle = new Battle(tableFirst, tableSecond);
 
         // Act
-        FightResult result = battle.Fight();
+        FightResult result = battle.Round();
 
         // Assert
         Assert.True(result is FightResult.Draw);
@@ -348,14 +362,16 @@ public class GameCoreTests
             new BattleAnalystFactory().CreateBuilder(), new ViciousFighterFactory().CreateBuilder(),
         };
 
-        var tableFirst = new PlayerTable();
+        PlayerTable tableFirst = PlayerTable.Builder.AddCreatureSelector(new SequentiallySelector()).Build();
 
-        var tableSecond = new PlayerTable();
-        tableSecond.AddCreature(creatures[0].Build());
+        PlayerTable tableSecond = new TableWithSequentialSelectorFactory().CreateBuilder()
+            .AddCreature(creatures[0].Build())
+            .Build();
+
         var battle = new Battle(tableFirst, tableSecond);
 
         // Act
-        FightResult result = battle.Fight();
+        FightResult result = battle.Round();
 
         // Assert
         Assert.True(result is FightResult.SecondPlayerWin);
@@ -373,14 +389,15 @@ public class GameCoreTests
             new BattleAnalystFactory().CreateBuilder(), new ViciousFighterFactory().CreateBuilder(),
         };
 
-        var tableFirst = new PlayerTable();
-        tableFirst.AddCreature(creatures[0].Build());
+        PlayerTable tableFirst = new TableWithSequentialSelectorFactory().CreateBuilder()
+            .AddCreature(creatures[0].Build())
+            .Build();
 
-        var tableSecond = new PlayerTable();
+        PlayerTable tableSecond = new TableWithSequentialSelectorFactory().CreateBuilder().Build();
         var battle = new Battle(tableFirst, tableSecond);
 
         // Act
-        FightResult result = battle.Fight();
+        FightResult result = battle.Round();
 
         // Assert
         Assert.True(result is FightResult.FirstPlayerWin);
@@ -398,9 +415,11 @@ public class GameCoreTests
 
         var magicShieldSpell = new ShieldAmuletSpell();
 
-        var tableFirst = new PlayerTable();
-        tableFirst.AddCreature(catalogFirst[0].Build());
-        tableFirst.AddCreature(catalogFirst[1].Build());
+        PlayerTable tableFirst = new TableWithSequentialSelectorFactory().CreateBuilder()
+            .AddCreature(catalogFirst[0].Build())
+            .AddCreature(catalogFirst[1].Build())
+            .Build();
+
         tableFirst.CastSpell(new CreatureIndex(1), magicShieldSpell);
 
         var catalogSecond = new List<ICreatureBuilder>
@@ -409,14 +428,15 @@ public class GameCoreTests
             new BattleAnalystFactory().CreateBuilder(),
         };
 
-        var tableSecond = new PlayerTable();
-        tableSecond.AddCreature(catalogSecond[0].Build());
-        tableSecond.AddCreature(catalogSecond[1].Build());
+        PlayerTable tableSecond = new TableWithSequentialSelectorFactory().CreateBuilder()
+            .AddCreature(catalogSecond[0].Build())
+            .AddCreature(catalogSecond[1].Build())
+            .Build();
 
         var battle = new Battle(tableFirst, tableSecond);
 
         // Act
-        FightResult result = battle.Fight();
+        FightResult result = battle.Round();
 
         // Assert
         Assert.True(result is FightResult.FirstPlayerWin);

@@ -1,23 +1,27 @@
 using Itmo.ObjectOrientedProgramming.Lab3.Modifiers.ModifiersFactories;
 using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
-namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.CreaturesBuilders.CreatureBuilderEnteties;
+namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.CreaturesBuilders;
 
 internal abstract class CreatureBuilderBase : ICreatureBuilder
 {
     private readonly List<IModifierFactory> _modifiers = [];
 
-    protected Health? Health { get; private set; }
+    protected Health Health { get; private set; }
 
-    protected Attack? Attack { get; private set; }
+    protected Attack Attack { get; private set; }
 
-    public ICreatureBuilder AddModifiers(IReadOnlyCollection<IModifierFactory> modifiers)
+    public ICreatureBuilder AddModifiers(IModifierFactory? modifiers)
     {
-        _modifiers.AddRange(modifiers);
+        if (modifiers is not null)
+        {
+            _modifiers.Add(modifiers);
+        }
+
         return this;
     }
 
-    public ICreatureBuilder AddHealth(Health health)
+    public ICreatureAttackSelector AddHealth(Health health)
     {
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(health.Value);
         Health = health;

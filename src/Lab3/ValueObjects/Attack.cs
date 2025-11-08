@@ -1,6 +1,6 @@
 namespace Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
-public class Attack
+public readonly record struct Attack
 {
     public int Value { get; }
 

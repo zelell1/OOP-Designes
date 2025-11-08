@@ -16,37 +16,24 @@ public class Battle
         _secondPlayer = secondPlayer.Clone();
     }
 
-    public FightResult Fight()
+    public FightResult Round()
     {
-        List<PlayerTable> playerTables = [_firstPlayer, _secondPlayer];
-        int isFirst = 0;
+        PlayerTable attackingTable = _firstPlayer;
+        PlayerTable defendingTable = _secondPlayer;
 
         while (true)
         {
-            PlayerTable attackingTable = playerTables[isFirst];
-            PlayerTable defendingTable = playerTables[(isFirst + 1) % 2];
-
             ICreature? attackingCreature = attackingTable.FindAttackingCreature();
             ICreature? defendingCreature = defendingTable.FindDefendingCreature();
 
-            if (attackingCreature is null && defendingCreature is null)
+            if (attackingCreature is null && defendingTable.FindAttackingCreature() is null)
             {
                 return new FightResult.Draw();
             }
 
-            if (attackingCreature is null)
+            if (attackingCreature is not null && defendingCreature is null)
             {
-                if (isFirst == 0)
-                {
-                    return new FightResult.SecondPlayerWin();
-                }
-
-                return new FightResult.FirstPlayerWin();
-            }
-
-            if (defendingCreature is null)
-            {
-                if (isFirst == 0)
+                if (attackingTable == _firstPlayer)
                 {
                     return new FightResult.FirstPlayerWin();
                 }
@@ -54,8 +41,12 @@ public class Battle
                 return new FightResult.SecondPlayerWin();
             }
 
-            attackingCreature.Attacking(defendingCreature);
-            isFirst = (isFirst + 1) % 2;
+            if (attackingCreature is not null && defendingCreature is not null)
+            {
+                attackingCreature.Attacking(defendingCreature);
+            }
+
+            (attackingTable, defendingTable) = (defendingTable, attackingTable);
         }
     }
 }

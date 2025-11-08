@@ -1,3 +1,4 @@
+using Itmo.ObjectOrientedProgramming.Lab3.Creatures.CreaturesBuilders;
 using Itmo.ObjectOrientedProgramming.Lab3.Creatures.ResultType;
 using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
@@ -7,33 +8,42 @@ public sealed class ImmortalHorror : BaseCreature
 {
     private bool _isReborn;
 
-    public ImmortalHorror(Health health, Attack attack) : base(health, attack)
+    private ImmortalHorror(Health health, Attack attack) : base(health, attack)
     {
-        Health = health;
-        Attack = attack;
         _isReborn = false;
     }
 
+    public static ICreatureHealthSelector Build => new ImmortalHorrorBuilder();
+
     public override AttackResult GetDamage(Damage damage)
     {
-        Health = new Health(Health.Value - damage.Value);
+        CurrentHealth = new Health(CurrentHealth.Value - damage.Value);
 
-        if (Health.Value <= 0 && _isReborn)
+        if (CurrentHealth.Value <= 0 && _isReborn)
         {
             return new AttackResult.Dead();
         }
 
-        if (Health.Value <= 0 && !_isReborn)
+        if (CurrentHealth.Value <= 0 && !_isReborn)
         {
             _isReborn = true;
-            Health = new Health(1);
+            CurrentHealth = new Health(1);
         }
 
         return new AttackResult.NotDead();
     }
 
+    private sealed class ImmortalHorrorBuilder : CreatureBuilderBase
+    {
+        protected override ICreature BuildLogic()
+        {
+            ICreature immortalHorror = new ImmortalHorror(Health, Attack);
+            return immortalHorror;
+        }
+    }
+
     public override ICreature Clone()
     {
-        return new ImmortalHorror(Health, Attack);
+        return new ImmortalHorror(CurrentHealth, CurrentAttack);
     }
 }

@@ -1,8 +1,9 @@
 using Itmo.ObjectOrientedProgramming.Lab3.Creatures;
+using Itmo.ObjectOrientedProgramming.Lab3.CreatureSelector;
 using Itmo.ObjectOrientedProgramming.Lab3.Spells;
+using Itmo.ObjectOrientedProgramming.Lab3.Tables.Builders;
 using Itmo.ObjectOrientedProgramming.Lab3.Tables.ResultType;
 using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
-using System.Security.Cryptography;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Tables;
 
@@ -10,24 +11,15 @@ public class PlayerTable
 {
     private readonly List<ICreature> _creatures = [];
 
-    public PlayerTable() { }
+    private readonly ICreatureSelector _creatureSelector;
 
-    private PlayerTable(IReadOnlyCollection<ICreature> creatures)
+    private PlayerTable(IReadOnlyCollection<ICreature> creatures, ICreatureSelector creatureSelector)
     {
         _creatures.AddRange(creatures.Select(creature => creature.Clone()));
+        _creatureSelector = creatureSelector;
     }
 
-    public AddCreatureResult AddCreature(ICreature creature)
-    {
-        if (_creatures.Count >= 7)
-        {
-            return new AddCreatureResult.Failure();
-        }
-
-        _creatures.Add(creature.Clone());
-
-        return new AddCreatureResult.Success(creature);
-    }
+    public static IPlayerTableConfigBuilder Builder => new PlayerTableBuilder();
 
     public CastSpellResult CastSpell(CreatureIndex index, ISpell spell)
     {
@@ -51,7 +43,7 @@ public class PlayerTable
             return null;
         }
 
-        return attackingCreatures[RandomNumberGenerator.GetInt32(0, attackingCreatures.Count)];
+        return _creatureSelector.Choose(attackingCreatures);
     }
 
     public ICreature? FindDefendingCreature()
@@ -63,11 +55,45 @@ public class PlayerTable
             return null;
         }
 
-        return defendingCreatures[RandomNumberGenerator.GetInt32(0, defendingCreatures.Count)];
+        return _creatureSelector.Choose(defendingCreatures);
+    }
+
+    private sealed class PlayerTableBuilder : IPlayerTableBuilder
+    {
+        private readonly List<ICreature> _creatures = [];
+
+        private ICreatureSelector? _creatureSelector;
+
+        public IPlayerTableBuilder AddCreature(ICreature creature)
+        {
+            if (_creatures.Count >= 7)
+            {
+                throw new InvalidOperationException();
+            }
+
+            _creatures.Add(creature.Clone());
+            return this;
+        }
+
+        public IPlayerTableBuilder AddCreatureSelector(ICreatureSelector creatureSelector)
+        {
+            _creatureSelector = creatureSelector;
+            return this;
+        }
+
+        public PlayerTable Build()
+        {
+            if (_creatureSelector is null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            return new PlayerTable(_creatures, _creatureSelector);
+        }
     }
 
     public PlayerTable Clone()
     {
-        return new PlayerTable(_creatures);
+        return new PlayerTable(_creatures, _creatureSelector);
     }
 }

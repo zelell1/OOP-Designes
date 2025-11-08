@@ -1,6 +1,6 @@
 namespace Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
-public class Health
+public readonly record struct Health
 {
     public int Value { get; }
 

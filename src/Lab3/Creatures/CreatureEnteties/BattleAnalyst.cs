@@ -1,3 +1,4 @@
+using Itmo.ObjectOrientedProgramming.Lab3.Creatures.CreaturesBuilders;
 using Itmo.ObjectOrientedProgramming.Lab3.Creatures.ResultType;
 using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
@@ -7,21 +8,30 @@ public sealed class BattleAnalyst : BaseCreature
 {
     private readonly Attack _buffAttack;
 
-    public BattleAnalyst(Health health, Attack attack, Attack buffAttack) : base(health, attack)
+    private BattleAnalyst(Health health, Attack attack) : base(health, attack)
     {
-        Health = health;
-        Attack = attack;
-        _buffAttack = buffAttack;
+        _buffAttack = new Attack(2);
     }
+
+    public static ICreatureHealthSelector Build => new BattleAnalystBuilder();
 
     public override AttackResult Attacking(ICreature creature)
     {
-        Attack = new Attack(Attack.Value + _buffAttack.Value);
-        return creature.GetDamage(new Damage(Attack.Value));
+        CurrentAttack = new Attack(CurrentAttack.Value + _buffAttack.Value);
+        return creature.GetDamage(new Damage(CurrentAttack.Value));
+    }
+
+    private sealed class BattleAnalystBuilder : CreatureBuilderBase
+    {
+        protected override ICreature BuildLogic()
+        {
+            ICreature analyst = new BattleAnalyst(Health, Attack);
+            return analyst;
+        }
     }
 
     public override ICreature Clone()
     {
-        return new BattleAnalyst(Health, Attack, _buffAttack);
+        return new BattleAnalyst(CurrentHealth, CurrentAttack);
     }
 }

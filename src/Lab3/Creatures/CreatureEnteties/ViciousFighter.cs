@@ -1,3 +1,4 @@
+using Itmo.ObjectOrientedProgramming.Lab3.Creatures.CreaturesBuilders;
 using Itmo.ObjectOrientedProgramming.Lab3.Creatures.ResultType;
 using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
@@ -7,34 +8,43 @@ public sealed class ViciousFighter : BaseCreature
 {
     private readonly Attack _buffAttack;
 
-    public ViciousFighter(Health health, Attack attack, Attack buffAttack) : base(health, attack)
+    public ViciousFighter(Health health, Attack attack) : base(health, attack)
     {
-        Health = health;
-        Attack = attack;
-        _buffAttack = buffAttack;
+        _buffAttack = new Attack(2);
     }
+
+    public static ICreatureHealthSelector Build => new ViciousFighterBuilder();
 
     public override AttackResult GetDamage(Damage damage)
     {
-        if (Health.Value <= 0)
+        if (CurrentHealth.Value <= 0)
         {
             return new AttackResult.Dead();
         }
 
-        Health = new Health(Health.Value - damage.Value);
+        CurrentHealth = new Health(CurrentHealth.Value - damage.Value);
 
-        if (Health.Value <= 0)
+        if (CurrentHealth.Value <= 0)
         {
             return new AttackResult.Dead();
         }
 
-        Attack = new Attack(Attack.Value * _buffAttack.Value);
+        CurrentAttack = new Attack(CurrentAttack.Value * _buffAttack.Value);
 
         return new AttackResult.NotDead();
     }
 
+    private sealed class ViciousFighterBuilder : CreatureBuilderBase
+    {
+        protected override ICreature BuildLogic()
+        {
+            ICreature fighter = new ViciousFighter(Health, Attack);
+            return fighter;
+        }
+    }
+
     public override ICreature Clone()
     {
-        return new ViciousFighter(Health, Attack, _buffAttack);
+        return new ViciousFighter(CurrentHealth, CurrentAttack);
     }
 }
