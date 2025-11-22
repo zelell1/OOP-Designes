@@ -18,7 +18,7 @@ public sealed class BattleAnalyst : BaseCreature
     public override AttackResult Attacking(ICreature creature)
     {
         CurrentAttack = new Attack(CurrentAttack.Value + _buffAttack.Value);
-        return creature.GetDamage(new Damage(CurrentAttack.Value));
+        return creature.GetDamage(CurrentAttack);
     }
 
     private sealed class BattleAnalystBuilder : CreatureBuilderBase

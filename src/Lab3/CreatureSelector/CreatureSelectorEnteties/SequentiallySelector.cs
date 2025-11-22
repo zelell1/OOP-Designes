@@ -6,6 +6,6 @@ public class SequentiallySelector : ICreatureSelector
 {
     public ICreature? Choose(IReadOnlyList<ICreature> creatures)
     {
-        return creatures.OrderBy(allCreatures => allCreatures.Health.Value).First();
+        return creatures.OrderBy(allCreatures => allCreatures.Health.Value).FirstOrDefault();
     }
 }

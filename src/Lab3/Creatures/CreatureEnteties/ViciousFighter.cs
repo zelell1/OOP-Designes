@@ -15,7 +15,7 @@ public sealed class ViciousFighter : BaseCreature
 
     public static ICreatureHealthSelector Build => new ViciousFighterBuilder();
 
-    public override AttackResult GetDamage(Damage damage)
+    public override AttackResult GetDamage(Attack damage)
     {
         if (CurrentHealth.Value <= 0)
         {

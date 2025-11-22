@@ -155,7 +155,7 @@ public class GameCoreTests
 
         // Act
         creature = spell.CastSpell(creature);
-        creature.GetDamage(new Damage(10));
+        creature.GetDamage(new Attack(10));
 
         // Assert
         Assert.Equal(4, creature.Health.Value);
@@ -188,8 +188,8 @@ public class GameCoreTests
         // Act
         ICreature creature = new ViciousFighterFactory().CreateBuilder().AddModifiers(modifiers[0]).
             AddModifiers(modifiers[1]).Build();
-        creature.GetDamage(new Damage(10));
-        creature.GetDamage(new Damage(10));
+        creature.GetDamage(new Attack(10));
+        creature.GetDamage(new Attack(10));
 
         // Assert
         Assert.Equal(6, creature.Health.Value);
@@ -309,29 +309,23 @@ public class GameCoreTests
         };
 
         var spellFisrt = new ShieldAmuletSpell();
-        var spellSecond = new BuffAttackSpell();
-
-        PlayerTable table = new TableWithSequentialSelectorFactory().CreateBuilder()
-            .AddCreature(creatures[0].Build())
-            .AddCreature(creatures[1].Build())
-            .Build();
 
         ICreature creatureFirst = creatures[0].Build();
-        ICreature creatureSecond = creatures[1].Build();
+
+        PlayerTable table = new TableWithSequentialSelectorFactory().CreateBuilder()
+            .AddCreature(creatureFirst)
+            .Build();
 
         // Act
-        CastSpellResult resultFirst = table.CastSpell(new CreatureIndex(0), spellFisrt);
-        CastSpellResult resultSecond = table.CastSpell(new CreatureIndex(1), spellSecond);
+        CastSpellResult resultFirst = table.CastSpell(creatureFirst, spellFisrt);
+        PlayerTable table2 = table.Clone();
 
         // Assert
         Assert.True(resultFirst is CastSpellResult.Success);
-        Assert.True(resultSecond is CastSpellResult.Success);
 
-        if (resultFirst is CastSpellResult.Success successFirst &&
-            resultSecond is CastSpellResult.Success successSecond)
+        if (resultFirst is CastSpellResult.Success successFirst)
         {
-            Assert.NotSame(successFirst.Creature, creatureFirst);
-            Assert.NotSame(successSecond.Creature, creatureSecond);
+            Assert.NotSame(successFirst.Creature, table2.FindAttackingCreature());
         }
     }
 
@@ -415,12 +409,15 @@ public class GameCoreTests
 
         var magicShieldSpell = new ShieldAmuletSpell();
 
+        ICreature firstCreature = catalogFirst[0].Build();
+        ICreature secondCreature = catalogFirst[1].Build();
+
         PlayerTable tableFirst = new TableWithSequentialSelectorFactory().CreateBuilder()
-            .AddCreature(catalogFirst[0].Build())
-            .AddCreature(catalogFirst[1].Build())
+            .AddCreature(firstCreature)
+            .AddCreature(secondCreature)
             .Build();
 
-        tableFirst.CastSpell(new CreatureIndex(1), magicShieldSpell);
+        tableFirst.CastSpell(secondCreature, magicShieldSpell);
 
         var catalogSecond = new List<ICreatureBuilder>
         {

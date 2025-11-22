@@ -14,7 +14,7 @@ public sealed class MimicChest : BaseCreature
     {
         CurrentAttack = new Attack(Math.Max(CurrentAttack.Value, creature.Attack.Value));
         CurrentHealth = new Health(Math.Max(CurrentHealth.Value, creature.Health.Value));
-        return creature.GetDamage(new Damage(CurrentAttack.Value));
+        return creature.GetDamage(CurrentAttack);
     }
 
     private sealed class MimicChestBuilder : CreatureBuilderBase

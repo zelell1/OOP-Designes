@@ -6,10 +6,13 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.CreatureFactories.Creatu
 
 public class MimicChestFactory : ICreatureFactory
 {
+    private const int Health = 1;
+    private const int Attack = 1;
+
     public ICreatureBuilder CreateBuilder()
     {
         return MimicChest.Build
-            .AddHealth(new Health(1))
-            .AddAttack(new Attack(1));
+            .AddHealth(new Health(Health))
+            .AddAttack(new Attack(Attack));
     }
 }

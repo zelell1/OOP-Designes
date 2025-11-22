@@ -21,10 +21,10 @@ public abstract class BaseCreature : ICreature
 
     public virtual AttackResult Attacking(ICreature creature)
     {
-        return creature.GetDamage(new Damage(CurrentAttack.Value));
+        return creature.GetDamage(CurrentAttack);
     }
 
-    public virtual AttackResult GetDamage(Damage damage)
+    public virtual AttackResult GetDamage(Attack damage)
     {
         if (CurrentHealth.Value <= 0)
         {

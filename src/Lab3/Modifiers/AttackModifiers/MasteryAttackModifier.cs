@@ -19,17 +19,17 @@ public sealed class MasteryAttackModifier : ICreature
 
     public AttackResult Attacking(ICreature creature)
     {
-        AttackResult result = creature.GetDamage(new Damage(_creature.Attack.Value));
+        AttackResult result = creature.GetDamage(_creature.Attack);
 
         if (result is AttackResult.Dead)
         {
             return result;
         }
 
-        return creature.GetDamage(new Damage(_creature.Attack.Value));
+        return creature.GetDamage(_creature.Attack);
     }
 
-    public AttackResult GetDamage(Damage damage)
+    public AttackResult GetDamage(Attack damage)
     {
         return _creature.GetDamage(damage);
     }

@@ -11,7 +11,7 @@ public interface ICreature
 
     AttackResult Attacking(ICreature creature);
 
-    AttackResult GetDamage(Damage damage);
+    AttackResult GetDamage(Attack damage);
 
     void SetHealth(Health health);
 

@@ -6,10 +6,13 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.CreatureFactories.Creatu
 
 public class BattleAnalystFactory : ICreatureFactory
 {
+    private const int Health = 4;
+    private const int Attack = 2;
+
     public ICreatureBuilder CreateBuilder()
     {
         return BattleAnalyst.Build
-            .AddHealth(new Health(4))
-            .AddAttack(new Attack(2));
+            .AddHealth(new Health(Health))
+            .AddAttack(new Attack(Attack));
     }
 }

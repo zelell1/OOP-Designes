@@ -6,10 +6,13 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.CreatureFactories.Creatu
 
 public class ImmortalHorrorFactory : ICreatureFactory
 {
+    private const int Health = 4;
+    private const int Attack = 4;
+
     public ICreatureBuilder CreateBuilder()
     {
         return ImmortalHorror.Build
-            .AddHealth(new Health(4))
-            .AddAttack(new Attack(4));
+            .AddHealth(new Health(Health))
+            .AddAttack(new Attack(Attack));
     }
 }

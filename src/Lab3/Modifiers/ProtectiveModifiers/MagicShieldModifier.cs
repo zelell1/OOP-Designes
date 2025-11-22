@@ -28,10 +28,10 @@ public sealed class MagicShieldModifier : ICreature
 
     public AttackResult Attacking(ICreature creature)
     {
-        return creature.GetDamage(new Damage(Attack.Value));
+        return creature.GetDamage(Attack);
     }
 
-    public AttackResult GetDamage(Damage damage)
+    public AttackResult GetDamage(Attack damage)
     {
         if (!_isActive)
         {

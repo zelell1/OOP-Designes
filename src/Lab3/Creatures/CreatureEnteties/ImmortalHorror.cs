@@ -15,7 +15,7 @@ public sealed class ImmortalHorror : BaseCreature
 
     public static ICreatureHealthSelector Build => new ImmortalHorrorBuilder();
 
-    public override AttackResult GetDamage(Damage damage)
+    public override AttackResult GetDamage(Attack damage)
     {
         CurrentHealth = new Health(CurrentHealth.Value - damage.Value);
 
@@ -44,6 +44,6 @@ public sealed class ImmortalHorror : BaseCreature
 
     public override ICreature Clone()
     {
-        return new ImmortalHorror(CurrentHealth, CurrentAttack);
+        return new ImmortalHorror(CurrentHealth, CurrentAttack) { _isReborn = _isReborn };
     }
 }

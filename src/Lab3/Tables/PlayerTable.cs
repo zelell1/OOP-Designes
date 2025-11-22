@@ -3,7 +3,6 @@ using Itmo.ObjectOrientedProgramming.Lab3.CreatureSelector;
 using Itmo.ObjectOrientedProgramming.Lab3.Spells;
 using Itmo.ObjectOrientedProgramming.Lab3.Tables.Builders;
 using Itmo.ObjectOrientedProgramming.Lab3.Tables.ResultType;
-using Itmo.ObjectOrientedProgramming.Lab3.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Tables;
 
@@ -15,22 +14,24 @@ public class PlayerTable
 
     private PlayerTable(IReadOnlyCollection<ICreature> creatures, ICreatureSelector creatureSelector)
     {
-        _creatures.AddRange(creatures.Select(creature => creature.Clone()));
+        _creatures.AddRange(creatures);
         _creatureSelector = creatureSelector;
     }
 
     public static IPlayerTableConfigBuilder Builder => new PlayerTableBuilder();
 
-    public CastSpellResult CastSpell(CreatureIndex index, ISpell spell)
+    public CastSpellResult CastSpell(ICreature creature, ISpell spell)
     {
-        if (index.Value > _creatures.Count - 1)
+        int index = _creatures.IndexOf(creature);
+
+        if (index == -1)
         {
             return new CastSpellResult.CreatureNotFound();
         }
 
-        _creatures[index.Value] = spell.CastSpell(_creatures[index.Value]);
+        _creatures[index] = spell.CastSpell(_creatures[index]);
 
-        return new CastSpellResult.Success(_creatures[index.Value]);
+        return new CastSpellResult.Success(_creatures[index]);
     }
 
     public ICreature? FindAttackingCreature()
@@ -71,7 +72,7 @@ public class PlayerTable
                 throw new InvalidOperationException();
             }
 
-            _creatures.Add(creature.Clone());
+            _creatures.Add(creature);
             return this;
         }
 
@@ -94,6 +95,8 @@ public class PlayerTable
 
     public PlayerTable Clone()
     {
-        return new PlayerTable(_creatures, _creatureSelector);
+        var cloneCreatures = _creatures.Select(creature => creature.Clone()).ToList();
+
+        return new PlayerTable(cloneCreatures, _creatureSelector);
     }
 }
