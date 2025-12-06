@@ -11,7 +11,6 @@ public class SourceParametrNode<T> : BaseParametrChainParser<T> where T : ISrcDs
         {
             srcBuilder.AddSrc(iterator.Current);
             iterator.MoveNext();
-            return new ArgumentParseResult.Success();
         }
 
         return CallNext(builder, iterator);

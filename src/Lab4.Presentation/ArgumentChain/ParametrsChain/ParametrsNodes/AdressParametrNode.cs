@@ -11,7 +11,6 @@ public class AdressParametrNode<T> : BaseParametrChainParser<T> where T : IPathB
         {
             adressBuilder.AddPath(iterator.Current);
             iterator.MoveNext();
-            return new ArgumentParseResult.Success();
         }
 
         return CallNext(builder, iterator);

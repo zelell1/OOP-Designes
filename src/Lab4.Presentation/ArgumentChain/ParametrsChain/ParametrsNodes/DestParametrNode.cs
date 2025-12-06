@@ -11,7 +11,6 @@ public class DestParametrNode<T> : BaseParametrChainParser<T> where T : ISrcDstB
         {
             dstBuilder.AddDst(iterator.Current);
             iterator.MoveNext();
-            return new ArgumentParseResult.Success();
         }
 
         return CallNext(builder, iterator);

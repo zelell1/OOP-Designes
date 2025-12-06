@@ -40,11 +40,12 @@ public class ConnectCommand : IFileSystemCommand
     }
 
     public interface IConnectCommandBuilder : IFileSystemBuilder<IConnectCommandBuilder>,
-                                              IPathBuilder<IConnectCommandBuilder> { }
+                                              IPathBuilder<IConnectCommandBuilder>
+    { }
 
     private class ConnectCommandBuilder : IConnectCommandBuilder
     {
-        private IFileSystem _fileSystem = new StubFileSystem();
+        private IFileSystem _fileSystem = new LocalFileSystem();
 
         private string _path = string.Empty;
 

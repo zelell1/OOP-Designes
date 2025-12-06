@@ -7,6 +7,6 @@ public class TreeListVisitorFactory : IVisitorFactory
 {
     public IFileSystemComponentVisitor CreateVisitor(TreeOutputParametrs parametrs, int depth)
     {
-        return new TreeListVisitor(parametrs,  depth);
+        return new TreeListVisitor(parametrs, depth);
     }
 }

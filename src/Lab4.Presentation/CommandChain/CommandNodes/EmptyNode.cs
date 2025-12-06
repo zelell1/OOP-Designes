@@ -6,6 +6,6 @@ public class EmptyNode : ICommandChainSelector
 {
     public ParseBuildCommandResult Apply(IEnumerator<string> iterator)
     {
-        return new ParseBuildCommandResult.Failure("Empty node");
+        return new ParseBuildCommandResult.NotFound();
     }
 }

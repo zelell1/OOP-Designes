@@ -4,5 +4,5 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.ParserCommandFactorie
 
 public interface IParserCommandFactory
 {
-     ICommandChainParser Create();
+    ICommandChainParser Create();
 }

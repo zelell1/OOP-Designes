@@ -47,7 +47,8 @@ public class FileShowCommand : IFileSystemCommand
     }
 
     public interface IFileShowCommandBuilder : IShowModeBuilder<IFileShowCommandBuilder>,
-                                               IPathBuilder<IFileShowCommandBuilder> { }
+                                               IPathBuilder<IFileShowCommandBuilder>
+    { }
 
     private class FileShowCommandBuilder : IFileShowCommandBuilder
     {
@@ -79,7 +80,7 @@ public class FileShowCommand : IFileSystemCommand
                 return new BuildCommandResult.Success(new FileShowCommand(_fileContentOutput, _path));
             }
 
-            return new BuildCommandResult.Failure("Output flag");
+            return new BuildCommandResult.Failure("Neccesary flag missed");
         }
     }
 }

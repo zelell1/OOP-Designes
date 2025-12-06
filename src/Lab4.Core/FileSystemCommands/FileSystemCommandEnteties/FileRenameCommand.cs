@@ -43,7 +43,8 @@ public class FileRenameCommand : IFileSystemCommand
     }
 
     public interface IFileRenameCommandBuilder : IPathBuilder<IFileRenameCommandBuilder>,
-                                                 INameBuilder<IFileRenameCommandBuilder> { }
+                                                 INameBuilder<IFileRenameCommandBuilder>
+    { }
 
     private class FileRenameCommandBuilder : IFileRenameCommandBuilder
     {

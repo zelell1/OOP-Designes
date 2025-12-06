@@ -11,7 +11,6 @@ public class NameParametrNode<T> : BaseParametrChainParser<T> where T : INameBui
         {
             adressBuilder.AddName(iterator.Current);
             iterator.MoveNext();
-            return new ArgumentParseResult.Success();
         }
 
         return CallNext(builder, iterator);

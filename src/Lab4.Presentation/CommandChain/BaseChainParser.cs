@@ -1,5 +1,6 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemCommands.Builders;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemCommands.Builders.ResultTypes;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemCommands.FileSystemCommandEnteties;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentChain.FlagsChain;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentChain.ParametrsChain;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentChain.ResultTypes;
@@ -42,14 +43,14 @@ public abstract class BaseChainParser : ICommandChainParser
 
         ParseBuildCommandResult result = _commandSubChain.Apply(iterator);
 
-        if (result is not ParseBuildCommandResult.Failure)
+        if (result is ParseBuildCommandResult.Success || result is ParseBuildCommandResult.Failure)
         {
             return result;
         }
 
         ICommandBuilder builder = CreateCommandBuilder();
 
-        while (!iterator.Current.StartsWith('-'))
+        while (iterator.Current is not null && !iterator.Current.StartsWith('-'))
         {
             ArgumentParseResult parametrParseResult = _parametrsChain.Apply(builder, iterator);
 
@@ -64,7 +65,7 @@ public abstract class BaseChainParser : ICommandChainParser
             }
         }
 
-        while (iterator.Current.StartsWith('-'))
+        while (iterator.Current is not null && iterator.Current.StartsWith('-'))
         {
             ArgumentParseResult flagsParseResult = _flagChain.Apply(builder, iterator);
 
@@ -79,16 +80,21 @@ public abstract class BaseChainParser : ICommandChainParser
             }
         }
 
-        if (string.IsNullOrEmpty(iterator.Current))
+        if (iterator.Current is not null)
         {
             return new ParseBuildCommandResult.Failure("Too many arguments");
         }
 
         BuildCommandResult builderResult = builder.Build();
 
-        if (builderResult is BuildCommandResult.Success success)
+        if (builderResult is BuildCommandResult.Success success && success.Command is not NullCommand)
         {
             return new ParseBuildCommandResult.Success(success.Command);
+        }
+
+        if (builderResult is BuildCommandResult.Failure fail)
+        {
+            return new ParseBuildCommandResult.Failure(fail.Error);
         }
 
         return new ParseBuildCommandResult.Failure("Invalid command");
@@ -114,7 +120,7 @@ public abstract class BaseChainParser : ICommandChainParser
     {
         if (_next is null)
         {
-            return new ParseBuildCommandResult.Failure("No command found");
+            return new ParseBuildCommandResult.NotFound();
         }
 
         return _next.Apply(iterator);

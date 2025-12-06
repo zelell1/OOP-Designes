@@ -45,22 +45,22 @@ public class FileParserCommandFactory : IParserCommandFactory
             parametrsFileShowChain,
             fileShowModeFlagChain);
 
-        var fileCopyChain = new FileShowNode(
+        var fileCopyChain = new FileCopyNode(
             new EmptyNode(),
             parametrsFileCopyChain,
             new EmptyFlagNode());
 
-        var fileMoveChain = new FileShowNode(
+        var fileMoveChain = new FileMoveNode(
             new EmptyNode(),
             parametrsFileMoveChain,
             new EmptyFlagNode());
 
-        var fileDeleteChain = new FileShowNode(
+        var fileDeleteChain = new FileDeleteNode(
             new EmptyNode(),
             parametrsFileDeleteChain,
             new EmptyFlagNode());
 
-        var fileRenameChain = new FileShowNode(
+        var fileRenameChain = new FileRenameNode(
             new EmptyNode(),
             parametrsFileRenameChain,
             new EmptyFlagNode());

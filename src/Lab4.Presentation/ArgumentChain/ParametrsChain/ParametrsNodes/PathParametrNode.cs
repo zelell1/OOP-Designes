@@ -11,7 +11,6 @@ public class PathParametrNode<T> : BaseParametrChainParser<T> where T : IPathBui
         {
             pathBuilder.AddPath(iterator.Current);
             iterator.MoveNext();
-            return new ArgumentParseResult.Success();
         }
 
         return CallNext(builder, iterator);

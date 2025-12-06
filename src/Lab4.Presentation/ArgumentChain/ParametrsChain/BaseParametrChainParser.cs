@@ -27,7 +27,7 @@ public abstract class BaseParametrChainParser<T> : IParametrsChainParser where T
     {
         if (_next is null)
         {
-            return new ArgumentParseResult.NotFound();
+            return new ArgumentParseResult.Success();
         }
 
         return _next.Apply(builder, iterator);

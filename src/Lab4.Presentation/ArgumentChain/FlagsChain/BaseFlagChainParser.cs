@@ -12,7 +12,7 @@ public abstract class BaseFlagChainParser<T> : IFlagChainParser where T : IComma
 
     private IFlagChainParser? _next;
 
-    protected BaseFlagChainParser(string keyword,  IFlagArgumentsChainSelector argumentsChainSelector)
+    protected BaseFlagChainParser(string keyword, IFlagArgumentsChainSelector argumentsChainSelector)
     {
         _keyword = keyword;
         _argumentsChainSelector = argumentsChainSelector;

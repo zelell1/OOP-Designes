@@ -9,7 +9,6 @@ using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentChain.ParametrsCh
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentChain.ParametrsChain.ParametrsNodes;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.CommandChain;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.CommandChain.CommandNodes;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.CommandChain.CommandNodes.ConnectNodes;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.CommandChain.CommandNodes.TreeCommandNodes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.ParserCommandFactories.ParserCommandFactoriesEnteties;
@@ -28,7 +27,7 @@ public class TreeParserCommandFactory : IParserCommandFactory
             new DepthFlagNode<TreeListCommand.ITreeListCommandBuilder>(treeListFlagArgumentsChain);
 
         var gotoChain =
-            new ConnectNode(new EmptyNode(), gotoParametrChain, new EmptyFlagNode());
+            new TreeGotoNode(new EmptyNode(), gotoParametrChain, new EmptyFlagNode());
 
         var treeListChain =
            new TreeListNode(

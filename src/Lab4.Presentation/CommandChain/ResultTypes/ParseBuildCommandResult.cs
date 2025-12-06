@@ -8,5 +8,7 @@ public abstract record ParseBuildCommandResult
 
     public record Success(IFileSystemCommand Command) : ParseBuildCommandResult { }
 
+    public record NotFound : ParseBuildCommandResult { }
+
     public record Failure(string Error) : ParseBuildCommandResult { }
 }

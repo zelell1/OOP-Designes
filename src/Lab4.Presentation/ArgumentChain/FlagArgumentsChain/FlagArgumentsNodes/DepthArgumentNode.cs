@@ -7,6 +7,11 @@ public class DepthArgumentNode<T> : BaseFlagArgumentsChainParser<T> where T : ID
 {
     public override ArgumentParseResult Apply(ICommandBuilder builder, IEnumerator<string> iterator)
     {
+        if (iterator.Current is null)
+        {
+            return new ArgumentParseResult.Failure("Depth must have a value");
+        }
+
         if (!int.TryParse(iterator.Current, out int depth))
         {
             return new ArgumentParseResult.Failure("Depth must be an integer");
