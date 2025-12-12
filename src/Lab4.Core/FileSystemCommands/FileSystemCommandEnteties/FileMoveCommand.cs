@@ -45,7 +45,7 @@ public class FileMoveCommand : IFileSystemCommand
         return new FileSystemCommandResult.Success("Moved");
     }
 
-    public interface IFileMoveCommandBuilder : ISrcDstBuilder<IFileMoveCommandBuilder> { }
+    public interface IFileMoveCommandBuilder : ISourceDestinationBuilder<IFileMoveCommandBuilder> { }
 
     private class FileMoveCommandBuilder : IFileMoveCommandBuilder
     {

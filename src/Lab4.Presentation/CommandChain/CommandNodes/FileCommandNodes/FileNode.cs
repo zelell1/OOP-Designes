@@ -1,7 +1,4 @@
-using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemCommands.Builders;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemCommands.Builders.CategoryBuilders;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentChain.FlagsChain;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentChain.ParametrsChain;
+using Itmo.ObjectOrientedProgramming.Lab4.Presentation.CommandChain.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.CommandChain.CommandNodes.FileCommandNodes;
 
@@ -9,14 +6,27 @@ public class FileNode : BaseChainParser
 {
     private const string Keyword = "file";
 
-    public FileNode(
-        ICommandChainSelector chainSelector,
-        IParametrsChainSelector parametrsChain,
-        IFlagChainSelector flagChain)
-        : base(Keyword, chainSelector, parametrsChain, flagChain) { }
+    private readonly ICommandChainSelector _commandSubChain;
 
-    protected override ICommandBuilder CreateCommandBuilder()
+    public FileNode(ICommandChainSelector chainSelector)
     {
-        return new FileBuilder();
+        _commandSubChain = chainSelector;
+    }
+
+    public override ParseBuildCommandResult Apply(IEnumerator<string> iterator)
+    {
+        if (iterator.Current != Keyword)
+        {
+            return CallNext(iterator);
+        }
+
+        iterator.MoveNext();
+
+        if (iterator.Current is null)
+        {
+            return new ParseBuildCommandResult.Failure("Too few arguments");
+        }
+
+        return _commandSubChain.Apply(iterator);
     }
 }

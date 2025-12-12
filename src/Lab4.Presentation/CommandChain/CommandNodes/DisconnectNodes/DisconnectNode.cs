@@ -1,7 +1,6 @@
-using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemCommands.Builders;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemCommands.Builders.ResultTypes;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemCommands.FileSystemCommandEnteties;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentChain.FlagsChain;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentChain.ParametrsChain;
+using Itmo.ObjectOrientedProgramming.Lab4.Presentation.CommandChain.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.CommandChain.CommandNodes.DisconnectNodes;
 
@@ -9,14 +8,32 @@ public class DisconnectNode : BaseChainParser
 {
     private const string Keyword = "disconnect";
 
-    public DisconnectNode(
-        ICommandChainSelector chainSelector,
-        IParametrsChainSelector parametrsChain,
-        IFlagChainSelector flagChain)
-        : base(Keyword, chainSelector, parametrsChain, flagChain) { }
-
-    protected override ICommandBuilder CreateCommandBuilder()
+    public override ParseBuildCommandResult Apply(IEnumerator<string> iterator)
     {
-        return DisconnectCommand.Builder;
+        if (iterator.Current != Keyword)
+        {
+            return CallNext(iterator);
+        }
+
+        iterator.MoveNext();
+
+        if (iterator.Current is not null)
+        {
+            return new ParseBuildCommandResult.Failure("Too many arguments");
+        }
+
+        BuildCommandResult builderResult = DisconnectCommand.Builder.Build();
+
+        if (builderResult is BuildCommandResult.Success success)
+        {
+            return new ParseBuildCommandResult.Success(success.Command);
+        }
+
+        if (builderResult is BuildCommandResult.Failure fail)
+        {
+            return new ParseBuildCommandResult.Failure(fail.Error);
+        }
+
+        return new ParseBuildCommandResult.Failure("Invalid command");
     }
 }

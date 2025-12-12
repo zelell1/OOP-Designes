@@ -45,7 +45,7 @@ public class FileCopyCommand : IFileSystemCommand
         return new FileSystemCommandResult.Success("Copied");
     }
 
-    public interface IFileCopyCommandBuilder : ISrcDstBuilder<IFileCopyCommandBuilder> { }
+    public interface IFileCopyCommandBuilder : ISourceDestinationBuilder<IFileCopyCommandBuilder> { }
 
     private class FileCopyCommandBuilder : IFileCopyCommandBuilder
     {

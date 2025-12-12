@@ -6,19 +6,18 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentChain.FlagArg
 
 public class LocalConnectModeNode<T> : BaseFlagArgumentsChainParser<T> where T : IFileSystemBuilder<T>
 {
+    private const string Keyword = "local";
+
     private readonly IFileSystem _fileSystem;
 
-    private readonly string _keyword;
-
-    public LocalConnectModeNode(IFileSystem fileSystem, string keyword)
+    public LocalConnectModeNode(IFileSystem fileSystem)
     {
         _fileSystem = fileSystem;
-        _keyword = keyword;
     }
 
     public override ArgumentParseResult Apply(ICommandBuilder builder, IEnumerator<string> iterator)
     {
-        if (builder is T fileSystemBuilder && iterator.Current == _keyword)
+        if (builder is T fileSystemBuilder && iterator.Current == Keyword)
         {
             fileSystemBuilder.AddMode(_fileSystem);
             iterator.MoveNext();

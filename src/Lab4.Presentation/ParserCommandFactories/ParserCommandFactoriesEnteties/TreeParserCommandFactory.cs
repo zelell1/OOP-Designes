@@ -8,7 +8,6 @@ using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentChain.FlagsChain.
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentChain.ParametrsChain;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentChain.ParametrsChain.ParametrsNodes;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.CommandChain;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.CommandChain.CommandNodes;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.CommandChain.CommandNodes.TreeCommandNodes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.ParserCommandFactories.ParserCommandFactoriesEnteties;
@@ -26,22 +25,16 @@ public class TreeParserCommandFactory : IParserCommandFactory
         IFlagChainParser treeListFlagChain =
             new DepthFlagNode<TreeListCommand.ITreeListCommandBuilder>(treeListFlagArgumentsChain);
 
-        var gotoChain =
-            new TreeGotoNode(new EmptyNode(), gotoParametrChain, new EmptyFlagNode());
+        var gotoChain = new TreeGotoNode(gotoParametrChain);
 
-        var treeListChain =
-           new TreeListNode(
-               new EmptyNode(),
-               new EmptyParametrNode(),
+        var treeListChain = new TreeListNode(
                treeListFlagChain,
                new TreeListVisitorFactory(),
-               new TreeOutputParametrs(
-                   string.Empty,
-                   string.Empty,
-                   ' '));
+               new TreeOutputParametrs(" ", " ", ' '),
+               1);
 
         ICommandChainParser treeChainSelector = treeListChain.AddNext(gotoChain);
 
-        return new TreeNode(treeChainSelector, new EmptyParametrNode(), new EmptyFlagNode());
+        return new TreeNode(treeChainSelector);
     }
 }

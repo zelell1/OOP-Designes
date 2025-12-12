@@ -3,7 +3,7 @@ using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentChain.ResultTypes
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentChain.ParametrsChain.ParametrsNodes;
 
-public class DestParametrNode<T> : BaseParametrChainParser<T> where T : ISrcDstBuilder<T>
+public class DestParametrNode<T> : BaseParametrChainParser<T> where T : ISourceDestinationBuilder<T>
 {
     public override ArgumentParseResult Apply(ICommandBuilder builder, IEnumerator<string> iterator)
     {

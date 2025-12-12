@@ -45,12 +45,9 @@ public class TreeListCommand : IFileSystemCommand
     {
         private IVisitorFactory? _visitorFactory;
 
-        private TreeOutputParametrs _parametrs = new TreeOutputParametrs(
-                                                string.Empty,
-                                                string.Empty,
-                                                ' ');
+        private int _depth = -1;
 
-        private int _depth = 1;
+        private TreeOutputParametrs _parametrs = TreeOutputParametrs.Empty;
 
         public ITreeListCommandBuilder AddOutputParametrs(TreeOutputParametrs parametrs)
         {
@@ -72,13 +69,23 @@ public class TreeListCommand : IFileSystemCommand
 
         public BuildCommandResult Build()
         {
-            if (_visitorFactory is not null)
+            if (_visitorFactory is null)
             {
-                IFileSystemComponentVisitor componentVisitor = _visitorFactory.CreateVisitor(_parametrs, _depth);
-                return new BuildCommandResult.Success(new TreeListCommand(componentVisitor));
+                return new BuildCommandResult.Failure("VisitorFactory is null");
             }
 
-            return new BuildCommandResult.Failure("No depth");
+            if (_depth < 0)
+            {
+                return new BuildCommandResult.Failure("Depth not set");
+            }
+
+            if (_parametrs == TreeOutputParametrs.Empty)
+            {
+                return new BuildCommandResult.Failure("No parameters set");
+            }
+
+            IFileSystemComponentVisitor componentVisitor = _visitorFactory.CreateVisitor(_parametrs, _depth);
+            return new BuildCommandResult.Success(new TreeListCommand(componentVisitor));
         }
     }
 }

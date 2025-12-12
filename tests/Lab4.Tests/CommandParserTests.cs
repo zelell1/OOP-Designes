@@ -100,7 +100,7 @@ public class CommandParserTests
 
         if (result is ParseBuildCommandResult.Failure failure)
         {
-            Assert.Equal("Unknown flag", failure.Error);
+            Assert.Equal("Too many arguments", failure.Error);
         }
     }
 
@@ -124,7 +124,7 @@ public class CommandParserTests
 
         if (result is ParseBuildCommandResult.Failure failure)
         {
-            Assert.Equal("Unknown command", failure.Error);
+            Assert.Equal("Empty command", failure.Error);
         }
     }
 
@@ -244,7 +244,7 @@ public class CommandParserTests
 
         if (result is ParseBuildCommandResult.Failure failure)
         {
-            Assert.Equal("Neccesary flag missed", failure.Error);
+            Assert.Equal("No path", failure.Error);
         }
     }
 
@@ -412,7 +412,7 @@ public class CommandParserTests
 
         if (result is ParseBuildCommandResult.Failure failure)
         {
-            Assert.Equal("Too many arguments", failure.Error);
+            Assert.Equal("Command not found", failure.Error);
         }
     }
 }

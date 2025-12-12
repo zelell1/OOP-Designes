@@ -72,7 +72,7 @@ public class FileShowCommand : IFileSystemCommand
         {
             if (string.IsNullOrEmpty(_path))
             {
-                new BuildCommandResult.Failure("No path");
+                return new BuildCommandResult.Failure("No path");
             }
 
             if (_fileContentOutput is not null)

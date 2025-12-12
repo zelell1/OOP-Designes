@@ -1,4 +1,5 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemComponentsVisitors;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemComponents.FileSystemComponentsEnteties;
 
@@ -8,10 +9,13 @@ public class DirectoryFileSystemComponent : IFileSystemComponent
 
     public string Name { get; }
 
-    public DirectoryFileSystemComponent(string path)
+    private readonly IFileSystem _fileSystem;
+
+    public DirectoryFileSystemComponent(string path, IFileSystem fileSystem)
     {
         Path = path;
-        Name = System.IO.Path.GetFileName(path);
+        _fileSystem = fileSystem;
+        Name = _fileSystem.GetDirectoryName(path);
     }
 
     public void Accept(IFileSystemComponentVisitor visitor)
@@ -21,14 +25,6 @@ public class DirectoryFileSystemComponent : IFileSystemComponent
 
     public IEnumerable<IFileSystemComponent> GetContent()
     {
-        foreach (string component in Directory.EnumerateFileSystemEntries(Path))
-        {
-            if (Directory.Exists(component))
-            {
-                yield return new DirectoryFileSystemComponent(component);
-            }
-
-            yield return new FileFileSystemComponent(component);
-        }
+        return _fileSystem.GetContent(Path);
     }
 }

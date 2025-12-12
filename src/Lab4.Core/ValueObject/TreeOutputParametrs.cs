@@ -14,4 +14,6 @@ public readonly record struct TreeOutputParametrs
         DirectoryIcon = directoryIcon;
         PaddingIcon = paddingIcon;
     }
+
+    public static TreeOutputParametrs Empty => new TreeOutputParametrs(string.Empty, string.Empty, '\0');
 }

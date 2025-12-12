@@ -12,7 +12,30 @@ public class LocalFileSystem : IFileSystem
 
     public IFileSystemComponent GetComponents(string path)
     {
-        return new DirectoryFileSystemComponent(path);
+        return new DirectoryFileSystemComponent(path, this);
+    }
+
+    public IEnumerable<IFileSystemComponent> GetContent(string path)
+    {
+        foreach (string component in Directory.EnumerateFileSystemEntries(path))
+        {
+            if (Directory.Exists(component))
+            {
+                yield return new DirectoryFileSystemComponent(component, this);
+            }
+
+            yield return new FileFileSystemComponent(component, this);
+        }
+    }
+
+    public string GetFileName(string path)
+    {
+        return System.IO.Path.GetFileName(path);
+    }
+
+    public string GetDirectoryName(string path)
+    {
+        return System.IO.Path.GetDirectoryName(path) ?? string.Empty;
     }
 
     public bool MoveFile(string src, string dst)

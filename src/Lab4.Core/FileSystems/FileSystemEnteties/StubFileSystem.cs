@@ -15,6 +15,21 @@ public class StubFileSystem : IFileSystem
         return new DefaultSystemComponent();
     }
 
+    public IEnumerable<IFileSystemComponent> GetContent(string path)
+    {
+        return [];
+    }
+
+    public string GetFileName(string path)
+    {
+        return string.Empty;
+    }
+
+    public string GetDirectoryName(string path)
+    {
+        return string.Empty;
+    }
+
     public bool MoveFile(string src, string dst)
     {
         return false;

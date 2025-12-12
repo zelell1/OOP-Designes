@@ -1,7 +1,4 @@
-using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemCommands.Builders;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemCommands.Builders.CategoryBuilders;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentChain.FlagsChain;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentChain.ParametrsChain;
+using Itmo.ObjectOrientedProgramming.Lab4.Presentation.CommandChain.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.CommandChain.CommandNodes.TreeCommandNodes;
 
@@ -9,14 +6,27 @@ public class TreeNode : BaseChainParser
 {
     private const string Keyword = "tree";
 
-    public TreeNode(
-        ICommandChainSelector chainSelector,
-        IParametrsChainSelector parametrsChain,
-        IFlagChainSelector flagChain)
-        : base(Keyword, chainSelector, parametrsChain, flagChain) { }
+    private readonly ICommandChainSelector _commandSubChain;
 
-    protected override ICommandBuilder CreateCommandBuilder()
+    public TreeNode(ICommandChainSelector chainSelector)
     {
-        return new TreeBuilder();
+        _commandSubChain = chainSelector;
+    }
+
+    public override ParseBuildCommandResult Apply(IEnumerator<string> iterator)
+    {
+        if (iterator.Current != Keyword)
+        {
+            return CallNext(iterator);
+        }
+
+        iterator.MoveNext();
+
+        if (iterator.Current is null)
+        {
+            return new ParseBuildCommandResult.Failure("Too few arguments");
+        }
+
+        return _commandSubChain.Apply(iterator);
     }
 }

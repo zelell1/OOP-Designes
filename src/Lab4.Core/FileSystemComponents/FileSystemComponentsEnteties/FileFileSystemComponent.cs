@@ -1,4 +1,5 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemComponentsVisitors;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemComponents.FileSystemComponentsEnteties;
 
@@ -8,10 +9,10 @@ public class FileFileSystemComponent : IFileSystemComponent
 
     public string Name { get; }
 
-    public FileFileSystemComponent(string path)
+    public FileFileSystemComponent(string path, IFileSystem fileSystem)
     {
         Path = path;
-        Name = System.IO.Path.GetFileName(path);
+        Name = fileSystem.GetFileName(path);
     }
 
     public void Accept(IFileSystemComponentVisitor visitor)

@@ -15,9 +15,16 @@ public class RootNode
     {
         if (!iterator.MoveNext())
         {
-            return new ParseBuildCommandResult.Failure("Unknown command");
+            return new ParseBuildCommandResult.Failure("Empty command");
         }
 
-        return _parser.Apply(iterator);
+        ParseBuildCommandResult result = _parser.Apply(iterator);
+
+        if (result is ParseBuildCommandResult.NotFound)
+        {
+            return new ParseBuildCommandResult.Failure("Command not found");
+        }
+
+        return result;
     }
 }

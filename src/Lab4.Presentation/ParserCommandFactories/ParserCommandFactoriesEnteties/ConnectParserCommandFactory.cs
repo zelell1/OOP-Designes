@@ -7,7 +7,6 @@ using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentChain.FlagsChain.
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentChain.ParametrsChain;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentChain.ParametrsChain.ParametrsNodes;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.CommandChain;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.CommandChain.CommandNodes;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.CommandChain.CommandNodes.ConnectNodes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.ParserCommandFactories.ParserCommandFactoriesEnteties;
@@ -19,11 +18,11 @@ public class ConnectParserCommandFactory : IParserCommandFactory
         IParametrsChainParser parametrChainSelector = new AdressParametrNode<ConnectCommand.IConnectCommandBuilder>();
 
         IFlagArgumentsChainParser flagArgumentsChainSelector =
-            new LocalConnectModeNode<ConnectCommand.IConnectCommandBuilder>(new LocalFileSystem(), "local");
+            new LocalConnectModeNode<ConnectCommand.IConnectCommandBuilder>(new LocalFileSystem());
 
         IFlagChainParser argumentsChainSelector =
             new ConnectModeFlagNode<ConnectCommand.IConnectCommandBuilder>(flagArgumentsChainSelector);
 
-        return new ConnectNode(new EmptyNode(), parametrChainSelector, argumentsChainSelector);
+        return new ConnectNode(parametrChainSelector, argumentsChainSelector, new LocalFileSystem());
     }
 }

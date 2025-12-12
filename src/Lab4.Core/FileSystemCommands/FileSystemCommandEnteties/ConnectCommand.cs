@@ -2,7 +2,6 @@ using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemCommands.Builders;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemCommands.Builders.ResultTypes;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemCommands.ResultTypes;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems.FileSystemEnteties;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemState;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemState.ResultTypes;
 
@@ -45,7 +44,7 @@ public class ConnectCommand : IFileSystemCommand
 
     private class ConnectCommandBuilder : IConnectCommandBuilder
     {
-        private IFileSystem _fileSystem = new LocalFileSystem();
+        private IFileSystem? _fileSystem;
 
         private string _path = string.Empty;
 
@@ -68,7 +67,7 @@ public class ConnectCommand : IFileSystemCommand
                 return new BuildCommandResult.Failure("No path");
             }
 
-            if (_fileSystem is StubFileSystem)
+            if (_fileSystem is null)
             {
                 return new BuildCommandResult.Failure("No file system");
             }

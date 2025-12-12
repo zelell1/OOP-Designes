@@ -5,7 +5,6 @@ using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentChain.FlagsChain.
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentChain.ParametrsChain;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.ArgumentChain.ParametrsChain.ParametrsNodes;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.CommandChain;
-using Itmo.ObjectOrientedProgramming.Lab4.Presentation.CommandChain.CommandNodes;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.CommandChain.CommandNodes.FileCommandNodes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Presentation.ParserCommandFactories.ParserCommandFactoriesEnteties;
@@ -40,30 +39,11 @@ public class FileParserCommandFactory : IParserCommandFactory
             new PathParametrNode<FileRenameCommand.IFileRenameCommandBuilder>()
             .AddNext(new NameParametrNode<FileRenameCommand.IFileRenameCommandBuilder>());
 
-        var fileShowChain = new FileShowNode(
-            new EmptyNode(),
-            parametrsFileShowChain,
-            fileShowModeFlagChain);
-
-        var fileCopyChain = new FileCopyNode(
-            new EmptyNode(),
-            parametrsFileCopyChain,
-            new EmptyFlagNode());
-
-        var fileMoveChain = new FileMoveNode(
-            new EmptyNode(),
-            parametrsFileMoveChain,
-            new EmptyFlagNode());
-
-        var fileDeleteChain = new FileDeleteNode(
-            new EmptyNode(),
-            parametrsFileDeleteChain,
-            new EmptyFlagNode());
-
-        var fileRenameChain = new FileRenameNode(
-            new EmptyNode(),
-            parametrsFileRenameChain,
-            new EmptyFlagNode());
+        var fileShowChain = new FileShowNode(parametrsFileShowChain, fileShowModeFlagChain);
+        var fileCopyChain = new FileCopyNode(parametrsFileCopyChain);
+        var fileMoveChain = new FileMoveNode(parametrsFileMoveChain);
+        var fileDeleteChain = new FileDeleteNode(parametrsFileDeleteChain);
+        var fileRenameChain = new FileRenameNode(parametrsFileRenameChain);
 
         ICommandChainParser fileChain = fileShowChain
             .AddNext(fileCopyChain)
@@ -71,6 +51,6 @@ public class FileParserCommandFactory : IParserCommandFactory
             .AddNext(fileDeleteChain)
             .AddNext(fileRenameChain);
 
-        return new FileNode(fileChain, new EmptyParametrNode(), new EmptyFlagNode());
+        return new FileNode(fileChain);
     }
 }

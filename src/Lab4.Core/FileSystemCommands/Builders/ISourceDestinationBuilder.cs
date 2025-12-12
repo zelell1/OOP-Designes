@@ -1,6 +1,6 @@
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemCommands.Builders;
 
-public interface ISrcDstBuilder<T> : ICommandBuilder where T : ISrcDstBuilder<T>
+public interface ISourceDestinationBuilder<T> : ICommandBuilder where T : ISourceDestinationBuilder<T>
 {
     T AddSrc(string src);
 

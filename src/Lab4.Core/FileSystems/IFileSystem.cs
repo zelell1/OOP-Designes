@@ -8,6 +8,12 @@ public interface IFileSystem
 
     IFileSystemComponent GetComponents(string path);
 
+    IEnumerable<IFileSystemComponent> GetContent(string path);
+
+    string GetFileName(string path);
+
+    string GetDirectoryName(string path);
+
     bool MoveFile(string src, string dst);
 
     bool CopyFile(string src, string dst);
