@@ -30,12 +30,12 @@ public class LocalFileSystem : IFileSystem
 
     public string GetFileName(string path)
     {
-        return System.IO.Path.GetFileName(path);
+        return Path.GetFileName(path);
     }
 
     public string GetDirectoryName(string path)
     {
-        return System.IO.Path.GetDirectoryName(path) ?? string.Empty;
+        return Path.GetDirectoryName(path) ?? string.Empty;
     }
 
     public bool MoveFile(string src, string dst)
