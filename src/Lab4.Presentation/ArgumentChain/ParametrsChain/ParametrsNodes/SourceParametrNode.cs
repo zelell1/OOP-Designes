@@ -7,6 +7,11 @@ public class SourceParametrNode<T> : BaseParametrChainParser<T> where T : ISourc
 {
     public override ArgumentParseResult Apply(ICommandBuilder builder, IEnumerator<string> iterator)
     {
+        if (iterator.Current is null)
+        {
+            return new ArgumentParseResult.Failure("Source path parametr missing");
+        }
+
         if (builder is T srcBuilder)
         {
             srcBuilder.AddSrc(iterator.Current);

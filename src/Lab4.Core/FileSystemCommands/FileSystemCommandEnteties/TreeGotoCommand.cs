@@ -1,6 +1,7 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemCommands.Builders;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemCommands.Builders.ResultTypes;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemCommands.ResultTypes;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems.FileSystemEnteties;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemState;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemCommands.FileSystemCommandEnteties;
@@ -18,13 +19,22 @@ public class TreeGotoCommand : IFileSystemCommand
 
     public FileSystemCommandResult Run(FileSystemSession session)
     {
+        if (session.FileSystem is StubFileSystem)
+        {
+            return new FileSystemCommandResult.Failure("Disconnected");
+        }
+
         string newPath = session.FileSystem.CombinePath(session.ConnectionPath, session.CurrentPath, _path);
 
         if (!session.FileSystem.IsValidPath(session.ConnectionPath, newPath))
-            return new FileSystemCommandResult.Failure(string.Empty);
+        {
+            return new FileSystemCommandResult.Failure("Invalid path");
+        }
 
         if (!session.TryChangeDirectory(newPath))
+        {
             return new FileSystemCommandResult.Failure("Can't rename");
+        }
 
         return new FileSystemCommandResult.Success("Changed path");
     }

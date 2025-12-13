@@ -27,7 +27,7 @@ public sealed class TreeListVisitor : IFileSystemComponentVisitor
 
     public void Visit(FileFileSystemComponent component)
     {
-        _builder.Append(_parameters.PaddingIcon, _padding);
+        _builder.Append(_parameters.PaddingIcon, _padding * 3);
         _builder.Append(_parameters.FileIcon);
         _builder.AppendLine(component.Name);
     }
@@ -39,7 +39,7 @@ public sealed class TreeListVisitor : IFileSystemComponentVisitor
 
     public void Visit(DirectoryFileSystemComponent component)
     {
-        _builder.Append(_parameters.PaddingIcon, _padding);
+        _builder.Append(_parameters.PaddingIcon, _padding * 3);
         _builder.Append(_parameters.DirectoryIcon);
         _builder.AppendLine(component.Name);
 

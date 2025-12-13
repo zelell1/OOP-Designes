@@ -17,6 +17,11 @@ public class LocalConnectModeNode<T> : BaseFlagArgumentsChainParser<T> where T :
 
     public override ArgumentParseResult Apply(ICommandBuilder builder, IEnumerator<string> iterator)
     {
+        if (iterator.Current is null)
+        {
+            return new ArgumentParseResult.Failure("Connect mode must have a value");
+        }
+
         if (builder is T fileSystemBuilder && iterator.Current == Keyword)
         {
             fileSystemBuilder.AddMode(_fileSystem);

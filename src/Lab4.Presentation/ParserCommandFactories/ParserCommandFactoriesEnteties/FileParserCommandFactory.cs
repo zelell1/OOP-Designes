@@ -14,9 +14,7 @@ public class FileParserCommandFactory : IParserCommandFactory
     public ICommandChainParser Create()
     {
         var fileShowModeFlagArgumentChain =
-            new ShowModeNode<FileShowCommand.IFileShowCommandBuilder>(
-                new FileContentConsoleOutput(),
-                "console");
+            new ConsoleShowModeNode<FileShowCommand.IFileShowCommandBuilder>(new FileContentConsoleOutput());
 
         var fileShowModeFlagChain =
             new FileShowModeFlag<FileShowCommand.IFileShowCommandBuilder>(fileShowModeFlagArgumentChain);

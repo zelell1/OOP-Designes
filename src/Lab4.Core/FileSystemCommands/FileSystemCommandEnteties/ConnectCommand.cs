@@ -25,7 +25,7 @@ public class ConnectCommand : IFileSystemCommand
     {
         if (!Path.Exists(_path) || !Path.IsPathRooted(_path))
         {
-            return new FileSystemCommandResult.Failure(string.Empty);
+            return new FileSystemCommandResult.Failure("Invalid path");
         }
 
         ChangeStateResult stateResult = session.Connect(_path, _fileSystem);

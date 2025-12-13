@@ -5,6 +5,7 @@ using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemComponents;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemComponents.FileSystemComponentsEnteties;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemComponentsVisitors;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemComponentsVisitors.VisitorsFactory;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems.FileSystemEnteties;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystemState;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ValueObject;
 
@@ -23,15 +24,20 @@ public class TreeListCommand : IFileSystemCommand
 
     public FileSystemCommandResult Run(FileSystemSession session)
     {
+        if (session.FileSystem is StubFileSystem)
+        {
+            return new FileSystemCommandResult.Failure("Disconnected");
+        }
+
         IFileSystemComponent comp = session.FileSystem.GetComponents(session.CurrentPath);
 
         if (comp is DirectoryFileSystemComponent dir)
         {
-            _componentVisitor.Visit(dir);
+            dir.Accept(_componentVisitor);
             return new FileSystemCommandResult.Success(_componentVisitor.Value);
         }
 
-        return new FileSystemCommandResult.Failure(string.Empty);
+        return new FileSystemCommandResult.Failure("Unknown failure");
     }
 
     public interface ITreeListCommandBuilder : IDepthBuilder<ITreeListCommandBuilder>

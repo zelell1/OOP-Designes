@@ -30,7 +30,7 @@ public class TreeParserCommandFactory : IParserCommandFactory
         var treeListChain = new TreeListNode(
                treeListFlagChain,
                new TreeListVisitorFactory(),
-               new TreeOutputParametrs(" ", " ", ' '),
+               new TreeOutputParametrs("📄", "📂", ' '),
                1);
 
         ICommandChainParser treeChainSelector = treeListChain.AddNext(gotoChain);

@@ -25,14 +25,14 @@ public class FileShowCommand : IFileSystemCommand
     {
         if (session.FileSystem is StubFileSystem)
         {
-            return new FileSystemCommandResult.Failure(string.Empty);
+            return new FileSystemCommandResult.Failure("Disconnected");
         }
 
         string newPath = session.FileSystem.CombinePath(session.ConnectionPath, session.CurrentPath, _path);
 
         if (!Path.Exists(newPath) || !Path.IsPathRooted(newPath))
         {
-            return new FileSystemCommandResult.Failure(string.Empty);
+            return new FileSystemCommandResult.Failure("Invalid path");
         }
 
         string text = session.FileSystem.ShowFile(newPath);

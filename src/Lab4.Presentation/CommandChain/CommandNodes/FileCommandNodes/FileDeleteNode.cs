@@ -29,14 +29,11 @@ public class FileDeleteNode : BaseChainParser
 
         ICommandBuilder builder = FileDeleteCommand.Builder;
 
-        if (iterator.Current is not null && !iterator.Current.StartsWith('-'))
-        {
-            ArgumentParseResult parametrParseResult = _parametrsChain.Apply(builder, iterator);
+        ArgumentParseResult parametrParseResult = _parametrsChain.Apply(builder, iterator);
 
-            if (parametrParseResult is ArgumentParseResult.Failure failure)
-            {
-                return new ParseBuildCommandResult.Failure(failure.Error);
-            }
+        if (parametrParseResult is ArgumentParseResult.Failure failure)
+        {
+            return new ParseBuildCommandResult.Failure(failure.Error);
         }
 
         if (iterator.Current is not null)

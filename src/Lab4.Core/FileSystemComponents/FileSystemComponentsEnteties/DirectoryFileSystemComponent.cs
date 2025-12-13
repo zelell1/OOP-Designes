@@ -15,7 +15,7 @@ public class DirectoryFileSystemComponent : IFileSystemComponent
     {
         Path = path;
         _fileSystem = fileSystem;
-        Name = _fileSystem.GetDirectoryName(path);
+        Name = _fileSystem.GetFileName(path);
     }
 
     public void Accept(IFileSystemComponentVisitor visitor)

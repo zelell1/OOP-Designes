@@ -17,10 +17,21 @@ public class ConnectModeFlagNode<T> : BaseFlagChainParser<T> where T : IFileSyst
 
     public override ArgumentParseResult Apply(ICommandBuilder builder, IEnumerator<string> iterator)
     {
+        if (iterator.Current is null)
+        {
+            return new ArgumentParseResult.Success();
+        }
+
         if (iterator.Current == Keyword)
         {
             iterator.MoveNext();
             ArgumentParseResult result = _argumentsChainSelector.Apply(builder, iterator);
+
+            if (result is ArgumentParseResult.Success)
+            {
+                return Apply(builder, iterator);
+            }
+
             return result;
         }
 

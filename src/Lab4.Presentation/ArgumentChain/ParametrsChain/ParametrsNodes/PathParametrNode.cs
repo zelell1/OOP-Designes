@@ -7,6 +7,11 @@ public class PathParametrNode<T> : BaseParametrChainParser<T> where T : IPathBui
 {
     public override ArgumentParseResult Apply(ICommandBuilder builder, IEnumerator<string> iterator)
     {
+        if (iterator.Current is null)
+        {
+            return new ArgumentParseResult.Failure("Path parametr missing");
+        }
+
         if (builder is T pathBuilder)
         {
             pathBuilder.AddPath(iterator.Current);

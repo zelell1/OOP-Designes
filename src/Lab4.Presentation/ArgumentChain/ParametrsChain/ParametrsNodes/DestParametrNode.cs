@@ -7,6 +7,11 @@ public class DestParametrNode<T> : BaseParametrChainParser<T> where T : ISourceD
 {
     public override ArgumentParseResult Apply(ICommandBuilder builder, IEnumerator<string> iterator)
     {
+        if (iterator.Current is null)
+        {
+            return new ArgumentParseResult.Failure("Destination path parametr missing");
+        }
+
         if (builder is T dstBuilder)
         {
             dstBuilder.AddDst(iterator.Current);

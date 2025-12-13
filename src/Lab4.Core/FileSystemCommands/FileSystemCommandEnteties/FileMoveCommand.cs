@@ -24,17 +24,22 @@ public class FileMoveCommand : IFileSystemCommand
     {
         if (session.FileSystem is StubFileSystem)
         {
-            return new FileSystemCommandResult.Failure(string.Empty);
+            return new FileSystemCommandResult.Failure("Disconnected");
         }
 
         string newSourcePath = session.FileSystem.CombinePath(session.ConnectionPath, session.CurrentPath, _sourcePath);
 
+        string fileName = session.FileSystem.GetFileName(newSourcePath);
+
+        string newDirDestPath = session.FileSystem.CombinePath(
+            session.ConnectionPath, session.CurrentPath, _destinationPath);
+
         string newDestPath = session.FileSystem.CombinePath(
-                             session.ConnectionPath, session.CurrentPath, _destinationPath);
+            session.ConnectionPath, newDirDestPath, fileName);
 
         if (!session.FileSystem.IsValidPath(session.ConnectionPath, newSourcePath))
         {
-            return new FileSystemCommandResult.Failure(string.Empty);
+            return new FileSystemCommandResult.Failure("Invalid path");
         }
 
         if (!session.FileSystem.MoveFile(newSourcePath, newDestPath))

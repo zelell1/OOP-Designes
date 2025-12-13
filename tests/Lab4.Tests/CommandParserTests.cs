@@ -244,7 +244,7 @@ public class CommandParserTests
 
         if (result is ParseBuildCommandResult.Failure failure)
         {
-            Assert.Equal("No path", failure.Error);
+            Assert.Equal("Path parametr missing", failure.Error);
         }
     }
 

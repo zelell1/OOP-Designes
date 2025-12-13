@@ -23,8 +23,10 @@ public class LocalFileSystem : IFileSystem
             {
                 yield return new DirectoryFileSystemComponent(component, this);
             }
-
-            yield return new FileFileSystemComponent(component, this);
+            else
+            {
+                yield return new FileFileSystemComponent(component, this);
+            }
         }
     }
 

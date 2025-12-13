@@ -33,29 +33,22 @@ public class FileShowNode : BaseChainParser
 
         ICommandBuilder builder = FileShowCommand.Builder;
 
-        if (iterator.Current is not null && !iterator.Current.StartsWith('-'))
-        {
-            ArgumentParseResult parametrParseResult = _parametrsChain.Apply(builder, iterator);
+        ArgumentParseResult parametrParseResult = _parametrsChain.Apply(builder, iterator);
+        ArgumentParseResult flagsParseResult = _flagChain.Apply(builder, iterator);
 
-            if (parametrParseResult is ArgumentParseResult.Failure failure)
-            {
-                return new ParseBuildCommandResult.Failure(failure.Error);
-            }
+        if (parametrParseResult is ArgumentParseResult.Failure parametrFailure)
+        {
+            return new ParseBuildCommandResult.Failure(parametrFailure.Error);
         }
 
-        while (iterator.Current is not null && iterator.Current.StartsWith('-'))
+        if (flagsParseResult is ArgumentParseResult.Failure failure)
         {
-            ArgumentParseResult flagsParseResult = _flagChain.Apply(builder, iterator);
+            return new ParseBuildCommandResult.Failure(failure.Error);
+        }
 
-            if (flagsParseResult is ArgumentParseResult.Failure failure)
-            {
-                return new ParseBuildCommandResult.Failure(failure.Error);
-            }
-
-            if (flagsParseResult is ArgumentParseResult.NotFound)
-            {
-                return new ParseBuildCommandResult.Failure("Unknown flag");
-            }
+        if (flagsParseResult is ArgumentParseResult.NotFound)
+        {
+            return new ParseBuildCommandResult.Failure("Unknown flag");
         }
 
         if (iterator.Current is not null)

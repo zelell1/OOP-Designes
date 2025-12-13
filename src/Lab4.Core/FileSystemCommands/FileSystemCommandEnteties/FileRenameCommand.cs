@@ -24,14 +24,14 @@ public class FileRenameCommand : IFileSystemCommand
     {
         if (session.FileSystem is StubFileSystem)
         {
-            return new FileSystemCommandResult.Failure(string.Empty);
+            return new FileSystemCommandResult.Failure("Disconnected");
         }
 
         string newPath = session.FileSystem.CombinePath(session.ConnectionPath, session.CurrentPath, _path);
 
         if (!session.FileSystem.IsValidPath(session.ConnectionPath, newPath))
         {
-            return new FileSystemCommandResult.Failure(string.Empty);
+            return new FileSystemCommandResult.Failure("Invalid path");
         }
 
         if (!session.FileSystem.RenameFile(newPath, _name))

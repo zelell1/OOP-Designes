@@ -7,6 +7,11 @@ public class AdressParametrNode<T> : BaseParametrChainParser<T> where T : IPathB
 {
     public override ArgumentParseResult Apply(ICommandBuilder builder, IEnumerator<string> iterator)
     {
+        if (iterator.Current is null)
+        {
+            return new ArgumentParseResult.Failure("Adress parametr missing");
+        }
+
         if (builder is T adressBuilder)
         {
             adressBuilder.AddPath(iterator.Current);

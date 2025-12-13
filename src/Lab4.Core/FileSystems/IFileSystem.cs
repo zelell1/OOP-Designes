@@ -12,8 +12,6 @@ public interface IFileSystem
 
     string GetFileName(string path);
 
-    string GetDirectoryName(string path);
-
     bool MoveFile(string src, string dst);
 
     bool CopyFile(string src, string dst);
