@@ -39,7 +39,7 @@ public class SessionService : ISessionService
     {
         BankAccount? account = _context.BankAccounts.Query(
                 BankAccountQuery.Build(x => x.WithBankNumber(new BankNumber(request.BankNumber))))
-            .FirstOrDefault();
+                .FirstOrDefault();
 
         if (account is null)
         {

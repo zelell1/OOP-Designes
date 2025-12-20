@@ -84,7 +84,7 @@ public class BankAccountService : IBankAccountService
     {
         ISession? session = _context.Sessions.Query(
                 SessionQuery.Build(x => x.WithId(request.Id)))
-            .FirstOrDefault();
+                .FirstOrDefault();
 
         if (session is not UserSession userSession)
         {
