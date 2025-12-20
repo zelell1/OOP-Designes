@@ -17,7 +17,7 @@ public class BankAccountRepository : IBankAccountRepository
             bankAccount.BankNumber,
             bankAccount.Password);
 
-        _bankAccounts.Add(id, bankAccount);
+        _bankAccounts.Add(id, account);
     }
 
     public void Update(BankAccount bankAccount)
