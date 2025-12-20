@@ -14,21 +14,21 @@
     <Project Path="src\Lab4.Presentation\Lab4.Presentation.csproj" />
   </Folder>
   <Folder Name="/src/lab-5/">
-    <Project Path="src/Lab5/Lab5.csproj" />
+    <Project Path="src/Lab5/Lab5/Lab5.csproj" />
   </Folder>
-  <Folder Name="/src/lab-5/Application/">
-    <Project Path="src/Lab5.Application.Abstractions/Lab5.Application.Abstractions.csproj" />
-    <Project Path="src/Lab5.Application.Contracts/Lab5.Application.Contracts.csproj" />
-    <Project Path="src/Lab5.Application/Lab5.Application.csproj" />
+  <Folder Name="/src/Lab5/lab-5/Application/">
+    <Project Path="src/Lab5/Lab5.Application.Abstractions/Lab5.Application.Abstractions.csproj" />
+    <Project Path="src/Lab5/Lab5.Application.Contracts/Lab5.Application.Contracts.csproj" />
+    <Project Path="src/Lab5/Lab5.Application/Lab5.Application.csproj" />
   </Folder>
-  <Folder Name="/src/lab-5/Domain/">
-    <Project Path="src/Lab5.Domain/Lab5.Domain.csproj" />
+  <Folder Name="/src/Lab5/lab-5/Domain/">
+    <Project Path="src/Lab5/Lab5.Domain/Lab5.Domain.csproj" />
   </Folder>
-  <Folder Name="/src/lab-5/Infastracture/">
-    <Project Path="src/Lab5.Infrastructure/Lab5.Infrastructure.csproj" />
+  <Folder Name="/src/Lab5/lab-5/Infastracture/">
+    <Project Path="src/Lab5/Lab5.Infrastructure/Lab5.Infrastructure.csproj" />
   </Folder>
-  <Folder Name="/src/lab-5/Presentation/">
-    <Project Path="src/Lab5.Presentation/Lab5.Presentation.csproj" />
+  <Folder Name="/src/Lab5/lab-5/Presentation/">
+    <Project Path="src/Lab5/Lab5.Presentation/Lab5.Presentation.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests\Lab1.Tests\Lab1.Tests.csproj" />

@@ -6,11 +6,23 @@ namespace Lab5.Infrastructure.Repositories;
 
 public class BankAccountRepository : IBankAccountRepository
 {
-    private readonly Dictionary<BankNumber, BankAccount> _bankAccounts = [];
+    private readonly Dictionary<BankAccountId, BankAccount> _bankAccounts = [];
 
     public void Add(BankAccount bankAccount)
     {
-        _bankAccounts.Add(bankAccount.BankNumber, bankAccount);
+        var id = new BankAccountId(_bankAccounts.Count + 1);
+
+        var account = new BankAccount(
+            id,
+            bankAccount.BankNumber,
+            bankAccount.Password);
+
+        _bankAccounts.Add(id, bankAccount);
+    }
+
+    public void Update(BankAccount bankAccount)
+    {
+        _bankAccounts[bankAccount.Id] = bankAccount;
     }
 
     public BankAccount? GetBankAccount(BankNumber? bankNumber)

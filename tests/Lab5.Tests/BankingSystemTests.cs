@@ -31,7 +31,7 @@ public class BankingSystemTests
         var id = Guid.NewGuid();
         var bankNumber = new BankNumber(1231);
         var password = new Password("password");
-        var account = new BankAccount(bankNumber, password);
+        var account = new BankAccount(BankAccountId.Default, bankNumber, password);
         var session = new UserSession(id, bankNumber);
 
         sessionsRepository.GetSession(id).Returns(session);
@@ -68,7 +68,7 @@ public class BankingSystemTests
         var id = Guid.NewGuid();
         var bankNumber = new BankNumber(1231);
         var password = new Password("password");
-        var account = new BankAccount(bankNumber, password);
+        var account = new BankAccount(BankAccountId.Default, bankNumber, password);
         var session = new UserSession(id, bankNumber);
 
         sessionsRepository.GetSession(id).Returns(session);
@@ -107,7 +107,7 @@ public class BankingSystemTests
         var id = Guid.NewGuid();
         var bankNumber = new BankNumber(1231);
         var password = new Password("password");
-        var account = new BankAccount(bankNumber, password);
+        var account = new BankAccount(BankAccountId.Default, bankNumber, password);
         var session = new UserSession(id, bankNumber);
 
         sessionsRepository.GetSession(id).Returns(session);

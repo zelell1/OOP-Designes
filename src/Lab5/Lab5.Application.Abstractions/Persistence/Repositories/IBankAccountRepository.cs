@@ -7,5 +7,7 @@ public interface IBankAccountRepository
 {
     void Add(BankAccount bankAccount);
 
+    void Update(BankAccount bankAccount);
+
     BankAccount? GetBankAccount(BankNumber? bankNumber);
 }

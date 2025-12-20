@@ -31,6 +31,7 @@ public class BankAccountService : IBankAccountService
         }
 
         var account = new BankAccount(
+            BankAccountId.Default,
             new BankNumber(request.BankNumber),
             new Password(request.Password));
 
@@ -95,6 +96,8 @@ public class BankAccountService : IBankAccountService
             return new WithdrawMoney.Response.BadRequest("You dont have enough money");
         }
 
+        _context.BankAccounts.Update(account);
+
         _context.Operations.Add(
             new BankOperation(
                 OperationId.Default,
@@ -122,6 +125,8 @@ public class BankAccountService : IBankAccountService
         }
 
         account.TopUp(new Money(request.Amount));
+
+        _context.BankAccounts.Update(account);
 
         _context.Operations.Add(
             new BankOperation(

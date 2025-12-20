@@ -5,14 +5,17 @@ namespace Lab5.Domain.Accounts;
 
 public sealed class BankAccount
 {
+    public BankAccountId Id { get; }
+
     public Money Money { get; private set; } = Money.Zero;
 
     public BankNumber BankNumber { get; }
 
     public Password Password { get; }
 
-    public BankAccount(BankNumber number, Password password)
+    public BankAccount(BankAccountId id, BankNumber number, Password password)
     {
+        Id = id;
         BankNumber = number;
         Password = password;
     }

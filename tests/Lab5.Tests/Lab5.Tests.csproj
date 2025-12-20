@@ -17,8 +17,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Lab5.Application.Abstractions\Lab5.Application.Abstractions.csproj" />
-      <ProjectReference Include="..\..\src\Lab5.Application\Lab5.Application.csproj" />
+      <ProjectReference Include="..\..\src\Lab5\Lab5.Application.Abstractions\Lab5.Application.Abstractions.csproj" />
+      <ProjectReference Include="..\..\src\Lab5\Lab5.Application\Lab5.Application.csproj" />
     </ItemGroup>
 
 </Project>
