@@ -1,4 +1,5 @@
 using Lab5.Application.Abstractions.Persistence;
+using Lab5.Application.Abstractions.Queries;
 using Lab5.Application.Contracts.Accounts;
 using Lab5.Application.Contracts.Accounts.Operations;
 using Lab5.Application.Mapping;
@@ -23,7 +24,9 @@ public class BankAccountService : IBankAccountService
 
     public CreateBankAccount.Response CreateBankAccount(CreateBankAccount.Request request)
     {
-        ISession? session = _context.Sessions.GetSession(request.Id);
+        ISession? session = _context.Sessions.Query(
+            SessionQuery.Build(x => x.WithId(request.Id)))
+            .FirstOrDefault();
 
         if (session is not AdminSession)
         {
@@ -49,14 +52,18 @@ public class BankAccountService : IBankAccountService
 
     public GetBalance.Response GetBalance(GetBalance.Request request)
     {
-        ISession? session = _context.Sessions.GetSession(request.Id);
+        ISession? session = _context.Sessions.Query(
+                SessionQuery.Build(x => x.WithId(request.Id)))
+            .FirstOrDefault();
 
         if (session is not UserSession userSession)
         {
             return new GetBalance.Response.Unauthorized("You dont have permission");
         }
 
-        BankAccount? account = _context.BankAccounts.GetBankAccount(userSession.BankNumber);
+        BankAccount? account = _context.BankAccounts.Query(
+                BankAccountQuery.Build(x => x.WithBankNumber(userSession.BankNumber)))
+                .FirstOrDefault();
 
         if (account is null)
         {
@@ -75,14 +82,18 @@ public class BankAccountService : IBankAccountService
 
     public WithdrawMoney.Response WithdrawMoney(WithdrawMoney.Request request)
     {
-        ISession? session = _context.Sessions.GetSession(request.Id);
+        ISession? session = _context.Sessions.Query(
+                SessionQuery.Build(x => x.WithId(request.Id)))
+            .FirstOrDefault();
 
         if (session is not UserSession userSession)
         {
             return new WithdrawMoney.Response.Unauthorized("You dont have permission");
         }
 
-        BankAccount? account = _context.BankAccounts.GetBankAccount(userSession.BankNumber);
+        BankAccount? account = _context.BankAccounts.Query(
+                BankAccountQuery.Build(x => x.WithBankNumber(userSession.BankNumber)))
+            .FirstOrDefault();
 
         if (account is null)
         {
@@ -110,14 +121,18 @@ public class BankAccountService : IBankAccountService
 
     public TopUpMoney.Response TopUpMoney(TopUpMoney.Request request)
     {
-        ISession? session = _context.Sessions.GetSession(request.Id);
+        ISession? session = _context.Sessions.Query(
+                SessionQuery.Build(x => x.WithId(request.Id)))
+                .FirstOrDefault();
 
         if (session is not UserSession userSession)
         {
             return new TopUpMoney.Response.Unauthorized("You dont have permission");
         }
 
-        BankAccount? account = _context.BankAccounts.GetBankAccount(userSession.BankNumber);
+        BankAccount? account = _context.BankAccounts.Query(
+                BankAccountQuery.Build(x => x.WithBankNumber(userSession.BankNumber)))
+                .FirstOrDefault();
 
         if (account is null)
         {

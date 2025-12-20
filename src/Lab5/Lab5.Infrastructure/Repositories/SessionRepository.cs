@@ -1,4 +1,5 @@
 using Lab5.Application.Abstractions.Persistence.Repositories;
+using Lab5.Application.Abstractions.Queries;
 using Lab5.Domain.Sessions;
 
 namespace Lab5.Infrastructure.Repositories;
@@ -17,9 +18,9 @@ public class SessionRepository : ISessionsRepository
         return _sessions.Remove(id);
     }
 
-    public ISession? GetSession(Guid id)
+    public IEnumerable<ISession> Query(SessionQuery query)
     {
         return _sessions.Values
-            .FirstOrDefault(x => x.Id == id);
+            .Where(x => query.Id.Contains(x.Id));
     }
 }

@@ -1,6 +1,6 @@
 using Lab5.Application.Abstractions.Persistence.Repositories;
+using Lab5.Application.Abstractions.Queries;
 using Lab5.Domain.Accounts;
-using Lab5.Domain.ValueObjects;
 
 namespace Lab5.Infrastructure.Repositories;
 
@@ -25,14 +25,9 @@ public class BankAccountRepository : IBankAccountRepository
         _bankAccounts[bankAccount.Id] = bankAccount;
     }
 
-    public BankAccount? GetBankAccount(BankNumber? bankNumber)
+    public IEnumerable<BankAccount> Query(BankAccountQuery query)
     {
-        if (bankNumber == null)
-        {
-            return null;
-        }
-
-        return _bankAccounts.Values.
-            FirstOrDefault(b => b.BankNumber == bankNumber);
+        return _bankAccounts.Values
+            .Where(x => query.BankNumbers.Contains(x.BankNumber));
     }
 }

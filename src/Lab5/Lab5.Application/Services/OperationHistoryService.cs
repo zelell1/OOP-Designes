@@ -20,7 +20,9 @@ public class OperationHistoryService : IOperationHistoryService
 
     public GetOperationHistory.Response GetOperationHistory(GetOperationHistory.Request request)
     {
-        ISession? session = _context.Sessions.GetSession(request.Id);
+        ISession? session = _context.Sessions.Query(
+                SessionQuery.Build(x => x.WithId(request.Id)))
+            .FirstOrDefault();
 
         if (session is not UserSession userSession)
         {

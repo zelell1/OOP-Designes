@@ -1,4 +1,5 @@
 using Lab5.Application.Abstractions.Persistence;
+using Lab5.Application.Abstractions.Queries;
 using Lab5.Application.Contracts.Sessions;
 using Lab5.Application.Contracts.Sessions.Operations;
 using Lab5.Application.Mapping;
@@ -36,7 +37,9 @@ public class SessionService : ISessionService
 
     public CreateUserSession.Response CreateUserSession(CreateUserSession.Request request)
     {
-        BankAccount? account = _context.BankAccounts.GetBankAccount(new BankNumber(request.BankNumber));
+        BankAccount? account = _context.BankAccounts.Query(
+                BankAccountQuery.Build(x => x.WithBankNumber(new BankNumber(request.BankNumber))))
+            .FirstOrDefault();
 
         if (account is null)
         {

@@ -1,5 +1,6 @@
 using Lab5.Application.Abstractions.Persistence;
 using Lab5.Application.Abstractions.Persistence.Repositories;
+using Lab5.Application.Abstractions.Queries;
 using Lab5.Application.Contracts.Accounts.Operations;
 using Lab5.Application.Services;
 using Lab5.Domain.Accounts;
@@ -34,8 +35,8 @@ public class BankingSystemTests
         var account = new BankAccount(BankAccountId.Default, bankNumber, password);
         var session = new UserSession(id, bankNumber);
 
-        sessionsRepository.GetSession(id).Returns(session);
-        bankAccountRepository.GetBankAccount(bankNumber).Returns(account);
+        sessionsRepository.Query(Arg.Any<SessionQuery>()).Returns([session]);
+        bankAccountRepository.Query(Arg.Any<BankAccountQuery>()).Returns([account]);
 
         var service = new BankAccountService(persistenceContext);
 
@@ -46,7 +47,7 @@ public class BankingSystemTests
         // Assert
         Assert.IsType<TopUpMoney.Response.Success>(result);
         Assert.Equal(100m, account.Money.Value);
-        bankAccountRepository.Received(1).GetBankAccount(bankNumber);
+        bankAccountRepository.Received(1).Query(Arg.Any<BankAccountQuery>());
         operationsHistoryRepository.Received(1).Add(Arg.Any<BankOperation>());
     }
 
@@ -71,8 +72,8 @@ public class BankingSystemTests
         var account = new BankAccount(BankAccountId.Default, bankNumber, password);
         var session = new UserSession(id, bankNumber);
 
-        sessionsRepository.GetSession(id).Returns(session);
-        bankAccountRepository.GetBankAccount(bankNumber).Returns(account);
+        sessionsRepository.Query(Arg.Any<SessionQuery>()).Returns([session]);
+        bankAccountRepository.Query(Arg.Any<BankAccountQuery>()).Returns([account]);
 
         var service = new BankAccountService(persistenceContext);
 
@@ -85,7 +86,7 @@ public class BankingSystemTests
         // Assert
         Assert.IsType<WithdrawMoney.Response.Success>(result);
         Assert.Equal(900m, account.Money.Value);
-        bankAccountRepository.Received(2).GetBankAccount(bankNumber);
+        bankAccountRepository.Received(2).Query(Arg.Any<BankAccountQuery>());
         operationsHistoryRepository.Received(2).Add(Arg.Any<BankOperation>());
     }
 
@@ -110,8 +111,8 @@ public class BankingSystemTests
         var account = new BankAccount(BankAccountId.Default, bankNumber, password);
         var session = new UserSession(id, bankNumber);
 
-        sessionsRepository.GetSession(id).Returns(session);
-        bankAccountRepository.GetBankAccount(bankNumber).Returns(account);
+        sessionsRepository.Query(Arg.Any<SessionQuery>()).Returns([session]);
+        bankAccountRepository.Query(Arg.Any<BankAccountQuery>()).Returns([account]);
 
         var service = new BankAccountService(persistenceContext);
 
@@ -122,7 +123,7 @@ public class BankingSystemTests
         // Assert
         Assert.IsType<WithdrawMoney.Response.BadRequest>(result);
         Assert.Equal(0m, account.Money.Value);
-        bankAccountRepository.Received(1).GetBankAccount(bankNumber);
+        bankAccountRepository.Received(1).Query(Arg.Any<BankAccountQuery>());
         operationsHistoryRepository.DidNotReceive();
     }
 }

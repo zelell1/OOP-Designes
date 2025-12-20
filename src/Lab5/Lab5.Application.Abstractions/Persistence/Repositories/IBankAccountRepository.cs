@@ -1,5 +1,5 @@
+using Lab5.Application.Abstractions.Queries;
 using Lab5.Domain.Accounts;
-using Lab5.Domain.ValueObjects;
 
 namespace Lab5.Application.Abstractions.Persistence.Repositories;
 
@@ -9,5 +9,5 @@ public interface IBankAccountRepository
 
     void Update(BankAccount bankAccount);
 
-    BankAccount? GetBankAccount(BankNumber? bankNumber);
+    IEnumerable<BankAccount> Query(BankAccountQuery query);
 }
